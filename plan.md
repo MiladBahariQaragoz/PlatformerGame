@@ -21,7 +21,7 @@
 - [x] Collision and Solid Ground (+10 XP)
 - [x] Scroll the World (+5 XP)
 - [x] Camera and Exploration (+10 XP)
-- [ ] Add Control Hints (+5 XP)
+- [x] Add Control Hints (+5 XP)
 - [ ] Game Feel and Polish (+10 XP)
 - [ ] Movement Recap (+10 XP)
 - [ ] Module Quiz 2 (+10 XP)

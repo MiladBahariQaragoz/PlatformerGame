@@ -12,10 +12,12 @@ export class WorldScene {
     this.level = level;
     this.player = new Player(level.spawn.x, level.spawn.y);
     this.camera = new Camera(CONFIG.width, level.width);
+    this.elapsed = 0; // seconds since the scene started (drives the hint fade)
   }
 
   update(dt, input) {
     const p = this.player;
+    this.elapsed += dt;
 
     // 1. Entity decides its movement intent from input.
     p.update(dt, input);
@@ -70,6 +72,29 @@ export class WorldScene {
     // The character, drawn on top of the world.
     this.player.render(ctx);
 
+    ctx.restore();
+
+    // HUD (screen space): control hints that fade out after the first few seconds.
+    this.drawHints(ctx);
+  }
+
+  // Control hints, fully visible for ~5s then fading out over ~3s.
+  drawHints(ctx) {
+    const fadeStart = 5;
+    const fadeEnd = 8;
+    let alpha = 1;
+    if (this.elapsed > fadeStart) {
+      alpha = 1 - (this.elapsed - fadeStart) / (fadeEnd - fadeStart);
+    }
+    if (alpha <= 0) return;
+
+    ctx.save();
+    ctx.globalAlpha = alpha;
+    ctx.fillStyle = CONFIG.colors.text;
+    ctx.font = '14px system-ui, sans-serif';
+    ctx.textAlign = 'left';
+    ctx.fillText('Move:  ← →  or  A D', 16, 28);
+    ctx.fillText('Jump:  Space  /  ↑  /  W', 16, 48);
     ctx.restore();
   }
 
