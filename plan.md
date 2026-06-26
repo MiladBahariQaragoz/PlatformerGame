@@ -50,6 +50,6 @@
 - [x] Add a Game Over Screen (+5 XP)
 - [x] Game Over and Retry (+10 XP)
 - [x] Final Creative Touches (+5 XP)
-- [ ] The Complete Picture (+10 XP)
+- [x] The Complete Picture (+10 XP)
 - [ ] Polish Recap (+10 XP)
 - [ ] Module Quiz 4 (+10 XP)

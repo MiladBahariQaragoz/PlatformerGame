@@ -135,3 +135,38 @@ the loop *around* the gameplay — and turn a single attempt into a game you kee
 ends, fades out (`drawEndFade`), then `setScene(new GameOverScene(result, score, total))`.
 `GameOverScene.update` maps retry keys → `new WorldScene()` and Escape → `new StartScene()`.
 Fresh-scene-per-run is what makes retry a one-liner.
+
+---
+
+## The Complete Picture (+10 XP)
+
+Step back from individual features and look at the whole. What turns a pile of mechanics into
+a *game* is how the layers fit together:
+
+- **Three layers, cleanly stacked.** The *engine* (loop, input, physics, camera, particles,
+  audio) knows nothing about platformers. The *entities* (player, enemy, coin, hazard, exit)
+  are game objects built on it. The *scenes* (title, world, end) wire them into a flow. Each
+  layer depends only downward — you can read any one without the others.
+- **Data describes the game; code runs it.** A level is an object (`levels/level1.js`):
+  platforms, coins, enemies, hazards, an exit, decorations. The scene *interprets* that data;
+  it has no level-specific code. A whole new level is a new data file — the strongest proof the
+  "scalable" goal held.
+- **One number, one place.** Every feel decision — gravity, jump, speed, patrol pace, particle
+  spray, shake size, volume, fade timing — lives in `config.js`. The game is *tunable* rather
+  than hard-coded; balancing it never means hunting through logic.
+- **Few primitives, much game.** Almost everything is two ideas: an AABB and a velocity
+  integrated over `dt`. Collide, collect, hurt, win — all the same overlap test; move, fall,
+  jump, patrol — all the same integration. Depth came from *combining* small pieces, not piling
+  up special cases.
+- **Polish is a layer, not a rewrite.** Module 4 added juice, sound, menus, and retry *on top*
+  of finished gameplay without touching the rules. Because feedback lived in its own systems and
+  the engine exposed the right seams (`setScene`, `camera.shake`, `particles.burst`), the polish
+  pass was purely additive — the whole curriculum's "add, don't rewrite" discipline paying its
+  final dividend.
+- **Traceability as a feature.** Every task is one commit, every commit updates `plan.md` and
+  `PROGRESS.md`, and these notes explain the *why*. The history reads as the story of how the
+  game was built — you can walk it task by task.
+
+**How it maps to our code:** the structure is the lesson — `src/engine/` vs `src/entities/` vs
+`src/scenes/`, all driven by `src/config.js` and `src/levels/`. No single file "is" the game;
+the game is how they compose.
