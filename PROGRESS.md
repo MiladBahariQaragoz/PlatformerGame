@@ -50,7 +50,7 @@ row with the commit that implemented it, so the game's history is auditable end 
 
 | Task | XP | Status | Commit |
 | --- | --- | --- | --- |
-| Add Collectibles | 5 | ☑ | `a56a9c3` |
+| Add Collectibles | 5 | ☑ | `a363842` |
 | Rewards and Motivation | 10 | ☐ | — |
 | Add an Enemy | 5 | ☐ | — |
 | Enemies and Obstacles | 10 | ☐ | — |
