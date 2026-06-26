@@ -96,9 +96,12 @@ export class LevelGenerator {
     if (this.count === this.coinTarget) {
       out.coins.push({ x: platform.x + w / 2, y: top - 30 }); // center point
     }
+    const hasCoin = out.coins.length > 0;
 
     // 5. A threat on wide-enough platforms (so there's always room to land): an enemy, or a
-    //    spike strip, or nothing.
+    //    spike strip, or nothing. A platform carrying corn never also gets a spike strip — corn
+    //    must never sit on a hazard — so the kernel always stays safe to grab. (An enemy is
+    //    still allowed: it's avoidable/stompable and the corn floats clear above it.)
     if (!safe && w >= 120) {
       const roll = Math.random();
       if (roll < e.enemyChance) {
@@ -109,7 +112,7 @@ export class LevelGenerator {
           minX: platform.x + 4,
           maxX: platform.x + w - 4,
         });
-      } else if (roll < e.enemyChance + e.hazardChance) {
+      } else if (!hasCoin && roll < e.enemyChance + e.hazardChance) {
         const hw = Math.min(w * 0.45, 56);
         out.hazards.push({ x: platform.x + (w - hw) / 2, y: top - 16, w: hw, h: 16 });
       }

@@ -140,7 +140,7 @@ export class WorldScene {
       if (aabbOverlap(p, c)) {
         c.collected = true;
         this.coins += 1;
-        this.particles.burst(c.x + c.w / 2, c.y + c.h / 2, CONFIG.colors.coin);
+        this.particles.burst(c.x + c.w / 2, c.y + c.h / 2, CONFIG.colors.corn);
         audio.coin();
         if (this.endless) {
           this.timeLeft = Math.min(CONFIG.time.max, this.timeLeft + CONFIG.time.perCoin);
@@ -422,13 +422,13 @@ export class WorldScene {
   // progress toward the level's coins.
   drawScore(ctx) {
     const label = this.endless
-      ? `Coins  ${this.coins}`
+      ? `Corn  ${this.coins}`
       : this.collectibles.length === 0
         ? null
-        : `Coins  ${this.coins} / ${this.collectibles.length}`;
+        : `Corn  ${this.coins} / ${this.collectibles.length}`;
     if (!label) return;
     ctx.save();
-    ctx.fillStyle = CONFIG.colors.coin;
+    ctx.fillStyle = CONFIG.colors.corn;
     ctx.font = 'bold 15px system-ui, sans-serif';
     ctx.textAlign = 'right';
     ctx.fillText(label, CONFIG.width - 16, 50);

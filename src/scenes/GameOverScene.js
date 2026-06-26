@@ -74,10 +74,10 @@ export class GameOverScene {
       ctx.fillText(`Best  ${best}${unit}`, cx, height / 2 + 62);
     }
 
-    // Coins gathered (small).
-    ctx.fillStyle = colors.coin;
+    // Corn gathered (small).
+    ctx.fillStyle = colors.corn;
     ctx.font = '14px system-ui, sans-serif';
-    ctx.fillText(`Coins  ${coins}`, cx, height / 2 + 86);
+    ctx.fillText(`Corn  ${coins}`, cx, height / 2 + 86);
 
     // Blinking retry prompt + title hint.
     ctx.save();

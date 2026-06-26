@@ -140,6 +140,11 @@ export const CONFIG = {
     coin: '#ffd23f',
     coinShine: '#fff1a8',
     coinEdge: '#caa000',
+    // Corn seeds (the collectible's theme): a golden kernel with a paler tip and dark hull.
+    corn: '#f6c945',
+    cornShine: '#fff0a8',
+    cornEdge: '#b8860b',
+    cornTip: '#fff6cf',
     enemy: '#8e44ad',
     enemyEye: '#ffffff',
     enemyDefeated: '#5e3370',
