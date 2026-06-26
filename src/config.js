@@ -2,6 +2,12 @@
 // elsewhere. Curriculum tasks add to this file as the game grows.
 
 export const CONFIG = {
+  // Game identity (shown on menus).
+  game: {
+    title: 'GREEN HILLS',
+    subtitle: 'a tiny platformer',
+  },
+
   // Canvas / viewport (logical pixels)
   width: 800,
   height: 450,
