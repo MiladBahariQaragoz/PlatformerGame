@@ -84,6 +84,34 @@ export const CONFIG = {
     clouds: 0.4, // clouds move at 40% of the camera's horizontal speed
   },
 
+  // Lava floor (endless mode): a deadly band fixed at the bottom of the screen.
+  lava: {
+    height: 56, // px band height (also sets the death line: y = canvas height - this)
+  },
+
+  // Procedural endless run. Each next platform's height is chosen within the player's jump
+  // reach (derived from jumpSpeed/gravity), then the gap is capped to what's physically
+  // clearable, so every generated jump is fair by construction.
+  endless: {
+    minTopY: 110, // highest a platform top may sit (px from canvas top)
+    clearanceAboveLava: 64, // platforms stay at least this far above the lava surface
+    maxRise: 78, // biggest upward step (px) — under the ~107px jump height, for margin
+    maxDrop: 150, // biggest downward step (px)
+    minGap: 46, // smallest horizontal gap between platforms (px)
+    maxGap: 230, // hard cap on the gap (px)
+    gapSafety: 0.8, // fraction of the reachable gap we actually use (fairness margin)
+    thickness: 18, // platform height (px)
+    shortWidth: [60, 120], // px range for a "short" platform
+    longWidth: [150, 270], // px range for a "long" platform
+    longChance: 0.4, // probability a platform is long rather than short
+    aheadBuffer: 420, // generate platforms until this far past the right viewport edge
+    cullBuffer: 240, // drop platforms/items this far behind the left viewport edge
+    safeStart: 3, // first N platforms carry no enemies/hazards
+    coinChance: 0.6, // probability a platform gets a little coin arc
+    enemyChance: 0.28, // probability a wide platform gets an enemy
+    hazardChance: 0.26, // probability a wide platform gets a spike strip instead
+  },
+
   // Palette
   colors: {
     sky: '#5c94fc',
@@ -112,6 +140,9 @@ export const CONFIG = {
     exitFlag: '#27ae60',
     exitFlagReached: '#f1c40f',
     menuBg: '#1b2330',
+    lava: '#e2521a',
+    lavaTop: '#ffb24a',
+    lavaGlow: 'rgba(255, 120, 40, 0.45)',
     text: '#ffffff',
   },
 };
