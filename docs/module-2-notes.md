@@ -67,3 +67,25 @@ Collision is what makes geometry *solid* instead of decorative. Our approach:
 
 **How it maps to our code:** all of this lives in `engine/physics.js` (`aabbOverlap`,
 `moveAndCollide`). The scene just hands it the player and the level's platforms.
+
+---
+
+## Camera and Exploration (+10 XP)
+
+The camera decides what the player sees, which shapes how a level *feels* to explore:
+
+- **World space vs. screen space.** Game objects live in world coordinates; the camera is
+  just an offset we subtract when drawing. Splitting "where things are" from "where we look"
+  is what lets a small window show a big world.
+- **Follow + clamp.** Centering on the player keeps them readable; clamping to the level
+  edges stops the camera from revealing empty space past the world. Together they make the
+  level feel solid and bounded.
+- **Layers of depth.** Some things scroll, some don't: our sky and sun are pinned to the
+  screen while the world scrolls underneath. Parallax (backgrounds scrolling slower than the
+  foreground) is the natural next step for depth (a Module-4 juice candidate).
+- **Exploration is a reward.** A camera that reveals the world a screen at a time turns
+  movement into discovery — the off-screen path is a question the player wants to answer.
+
+**How it maps to our code:** `engine/camera.js` holds the offset and the follow+clamp math;
+`WorldScene.render` draws the sky/sun in screen space, then translates by the camera for the
+world.
