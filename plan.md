@@ -32,7 +32,7 @@
 - [x] Add an Enemy (+5 XP)
 - [x] Enemies and Obstacles (+10 XP)
 - [x] Add Hazards (+5 XP)
-- [ ] Difficulty and Fairness (+10 XP)
+- [x] Difficulty and Fairness (+10 XP)
 - [ ] Add a Lives System (+5 XP)
 - [ ] Stakes and Consequence (+10 XP)
 - [ ] Add a Level Exit (+5 XP)

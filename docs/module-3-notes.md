@@ -54,3 +54,34 @@ If coins are the carrot, enemies are the stick — they turn a stroll into a *de
 `moveAndCollide`; enemies are level data (`enemies`). `WorldScene.update` does the
 above-vs-side check: from above → `defeated` + bounce (`config.enemy.stompBounce`); otherwise
 `respawnPlayer()`. Tunables live in `config.enemy`.
+
+---
+
+## Difficulty and Fairness (+10 XP)
+
+Difficulty is easy to add and easy to get wrong. The goal isn't *hard* — it's *fair-but-hard*,
+the feeling that a death was your fault and the next try is winnable:
+
+- **Telegraph every threat.** Spikes look sharp and red; enemies pace in plain sight. The
+  player should always *see* the danger before it costs them. A hazard you couldn't have
+  known about isn't difficulty, it's a gotcha.
+- **Reachable by construction.** Hazards sit in open ground with the jump arc (~107px) far
+  exceeding their height — so every spike strip is clearable, and every guarded coin is
+  gettable. We tune obstacles against the player's *known* abilities, not arbitrarily.
+- **Consistent rules.** Touch a spike → reset. Land on an enemy → win. Touch it from the side
+  → reset. The rules never change, so the player can *learn* them. Consistency is the bedrock
+  of fairness.
+- **Short retry loop.** A mistake sends you back to spawn, not to a "you lose" wall. Cheap,
+  fast retries keep frustration low and mastery in reach — the player stays in the "one more
+  go" zone.
+- **Difficulty curve.** Threats are spread along the level, lightest near the start, so the
+  player builds skill before the harder mixes (an enemy *on* a platform near coins) show up.
+  Pacing the challenge matters as much as the challenge itself.
+- **Risk should be opt-in where possible.** The enemy guarding the coin cluster is a *choice*:
+  skip it safely, or take the risk for the reward. Player-chosen difficulty feels fair because
+  the player set the terms.
+
+**How it maps to our code:** fairness is mostly a *data* property — `levels/level1.js` places
+hazards/enemies in clearable spots, tuned against `config.player` (speed, jump) and
+`config.gravity`. The consistent, instant reset is `WorldScene.respawnPlayer()`; the
+predictable enemy is `Enemy`'s fixed patrol. Nothing here is random.
