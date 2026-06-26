@@ -41,7 +41,7 @@
 - [x] Module Quiz 3 (+10 XP)
 
 # Polish and Beyond
-- [ ] Add Juice Effects (+5 XP)
+- [x] Add Juice Effects (+5 XP)
 - [ ] Juice and Feedback (+10 XP)
 - [ ] Add Sound Effects (+5 XP)
 - [ ] Sound Design (+10 XP)

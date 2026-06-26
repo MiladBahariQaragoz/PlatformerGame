@@ -49,6 +49,20 @@ export const CONFIG = {
     start: 3,
   },
 
+  // Juice: particle bursts and screen shake for feedback on events.
+  particles: {
+    burstCount: 12, // particles per burst
+    speed: 200, // base spray speed (px/s)
+    life: 0.5, // base lifetime (s)
+    size: 4, // base square size (px)
+    gravity: 600, // downward pull on particles (px/s^2)
+  },
+  shake: {
+    stomp: 4, // magnitude (px) on a stomp
+    hit: 8, // magnitude (px) on taking damage
+    duration: 0.25, // seconds
+  },
+
   // Palette
   colors: {
     sky: '#5c94fc',

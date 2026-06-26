@@ -10,12 +10,14 @@ import { Hazard } from '../entities/Hazard.js';
 import { Exit } from '../entities/Exit.js';
 import { moveAndCollide, aabbOverlap } from '../engine/physics.js';
 import { Camera } from '../engine/camera.js';
+import { Particles } from '../engine/particles.js';
 
 export class WorldScene {
   constructor(level = level1) {
     this.level = level;
     this.player = new Player(level.spawn.x, level.spawn.y);
     this.camera = new Camera(CONFIG.width, level.width);
+    this.particles = new Particles(); // juice: bursts on coins, stomps, and hits
     this.elapsed = 0; // seconds since the scene started (drives the hint fade)
 
     // Build one coin per level entry; track how many the player has collected.
@@ -38,7 +40,10 @@ export class WorldScene {
   }
 
   update(dt, input) {
-    if (this.gameOver || this.levelComplete) return; // freeze once the run has ended or been won
+    // Juice keeps animating even on the end screens so bursts settle and shake decays.
+    this.particles.update(dt);
+    this.camera.update(dt);
+    if (this.gameOver || this.levelComplete) return; // freeze the sim once ended or won
 
     const p = this.player;
     this.elapsed += dt;
@@ -67,6 +72,7 @@ export class WorldScene {
       if (aabbOverlap(p, c)) {
         c.collected = true;
         this.score += 1;
+        this.particles.burst(c.x + c.w / 2, c.y + c.h / 2, CONFIG.colors.coin);
       }
     }
 
@@ -79,6 +85,8 @@ export class WorldScene {
       if (fromAbove) {
         e.defeated = true;
         p.vy = -CONFIG.player.jumpSpeed * CONFIG.enemy.stompBounce;
+        this.particles.burst(e.x + e.w / 2, e.y, CONFIG.colors.enemy);
+        this.camera.shake(CONFIG.shake.stomp, CONFIG.shake.duration);
       } else {
         this.hitPlayer();
       }
@@ -102,6 +110,9 @@ export class WorldScene {
   // Spend a life. With lives left, send the player back to spawn; at zero, end the run.
   hitPlayer() {
     if (this.gameOver) return;
+    const p = this.player;
+    this.particles.burst(p.x + p.w / 2, p.y + p.h / 2, CONFIG.colors.player);
+    this.camera.shake(CONFIG.shake.hit, CONFIG.shake.duration);
     this.lives -= 1;
     if (this.lives <= 0) {
       this.lives = 0;
@@ -136,9 +147,13 @@ export class WorldScene {
     // Sun stays fixed in the sky (screen space), independent of scrolling.
     this.drawSun(ctx, width - 120, 90, 34);
 
-    // Everything below scrolls with the camera: shift the world left by camera.x.
+    // Everything below scrolls with the camera: shift the world left by camera.x, plus the
+    // current screen-shake offset (juice).
     ctx.save();
-    ctx.translate(-Math.round(this.camera.x), 0);
+    ctx.translate(
+      -Math.round(this.camera.x) + Math.round(this.camera.shakeX),
+      Math.round(this.camera.shakeY)
+    );
 
     // Background scenery: clouds drift behind everything.
     if (deco) for (const c of deco.clouds) this.drawCloud(ctx, c);
@@ -164,6 +179,9 @@ export class WorldScene {
 
     // The character, drawn on top of the world.
     this.player.render(ctx);
+
+    // Particle bursts, on top of everything in the world.
+    this.particles.render(ctx);
 
     ctx.restore();
 
