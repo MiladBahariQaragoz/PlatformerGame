@@ -243,9 +243,11 @@ export class WorldScene {
     };
   }
 
-  // Spend a life. With lives left, send the player back to spawn; at zero, end the run.
+  // Spend a life. With lives left, send the player back to spawn with a window of invincibility
+  // (i-frames) so they aren't instantly hit again; at zero, end the run. Hits during the
+  // invincibility window are ignored.
   hitPlayer() {
-    if (this.gameOver) return;
+    if (this.gameOver || this.player.invincible > 0) return;
     const p = this.player;
     this.particles.burst(p.x + p.w / 2, p.y + p.h / 2, CONFIG.colors.player);
     this.camera.shake(CONFIG.shake.hit, CONFIG.shake.duration);
@@ -256,6 +258,7 @@ export class WorldScene {
     } else {
       audio.hit();
       this.respawnPlayer();
+      this.player.invincible = CONFIG.player.invincibleTime;
     }
   }
 

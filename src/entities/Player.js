@@ -4,6 +4,7 @@
 // A body is { x, y, w, h, vx, vy } so it plugs straight into engine/physics helpers.
 
 import { CONFIG } from '../config.js';
+import { getImage, imageReady, drawImageCircle } from '../engine/assets.js';
 
 export class Player {
   constructor(x, y) {
@@ -17,6 +18,9 @@ export class Player {
     this.onGround = false;
     this.jumpQueued = false; // set when a jump was pressed this step; scene consumes it
     this.squash = 0; // landing squash (0 = neutral, 1 = max), decays each step (juice)
+    this.invincible = 0; // seconds of post-hit invincibility left; the scene sets this on a hit
+    // Optional face picture (swap the file at CONFIG.player.face.src for your own).
+    this.faceImg = getImage(CONFIG.player.face.src);
   }
 
   // Called by the scene when the player touches down, with a 0..1 impact strength.
@@ -27,8 +31,9 @@ export class Player {
   // Reads input and sets movement intent (velocity). The scene applies the physics
   // step (integration, bounds, and — from "Add Jumping" on — gravity and collision).
   update(dt, input) {
-    // Decay the landing squash back to neutral.
+    // Decay the landing squash back to neutral and tick down post-hit invincibility.
     this.squash *= Math.max(0, 1 - dt * 9);
+    this.invincible = Math.max(0, this.invincible - dt);
 
     const left = input.isDown('ArrowLeft') || input.isDown('KeyA');
     const right = input.isDown('ArrowRight') || input.isDown('KeyD');
@@ -63,6 +68,10 @@ export class Player {
     const cx = this.x + this.w / 2;
     const footY = this.y + this.h;
     ctx.save();
+    // Blink while invincible (just after losing a life) so the i-frames read clearly.
+    if (this.invincible > 0 && Math.floor(this.invincible * 12) % 2 === 0) {
+      ctx.globalAlpha = 0.35;
+    }
     ctx.translate(cx, footY);
     ctx.scale(sx, sy);
     ctx.translate(-cx, -footY);
@@ -71,12 +80,20 @@ export class Player {
     ctx.fillStyle = player;
     ctx.fillRect(this.x, this.y, this.w, this.h);
 
-    // A single eye so the character has a face and a clear facing direction.
-    const eyeSize = 5;
-    const eyeY = this.y + 10;
-    const eyeX = this.facing >= 0 ? this.x + this.w - eyeSize - 5 : this.x + 5;
-    ctx.fillStyle = playerEye;
-    ctx.fillRect(eyeX, eyeY, eyeSize, eyeSize);
+    // Face: the player's picture if it has loaded, otherwise a single eye that also shows which
+    // way the character is facing.
+    const f = CONFIG.player.face;
+    if (imageReady(this.faceImg)) {
+      const faceCx = this.x + this.w / 2;
+      const faceCy = this.y + f.size / 2 + f.offsetY;
+      drawImageCircle(ctx, this.faceImg, faceCx, faceCy, f.size);
+    } else {
+      const eyeSize = 5;
+      const eyeY = this.y + 10;
+      const eyeX = this.facing >= 0 ? this.x + this.w - eyeSize - 5 : this.x + 5;
+      ctx.fillStyle = playerEye;
+      ctx.fillRect(eyeX, eyeY, eyeSize, eyeSize);
+    }
 
     ctx.restore();
   }

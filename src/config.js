@@ -29,6 +29,15 @@ export const CONFIG = {
     height: 40,
     speed: 220, // horizontal run speed (px/s)
     jumpSpeed: 620, // initial upward velocity on jump (px/s)
+    invincibleTime: 1.6, // seconds of i-frames after losing a life (blinks, can't be hit)
+    // Optional face image overlaid on the head. Drop a square image (PNG/JPG/SVG, transparent
+    // background) at `src`; see docs/face-image-template.md. Falls back to a drawn eye if the
+    // image is missing or still loading.
+    face: {
+      src: 'assets/images/hero-face.svg',
+      size: 24, // px the face is drawn at (square), centred on the upper body
+      offsetY: 1, // nudge the face down from the head top (px)
+    },
   },
 
   // Collectibles (coins). Positions are defined per-level as center points.
