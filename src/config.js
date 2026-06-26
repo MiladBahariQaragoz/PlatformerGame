@@ -79,6 +79,11 @@ export const CONFIG = {
     endDelay: 1.0, // seconds the world lingers (juice settling) before the end screen
   },
 
+  // Parallax: background layers scroll slower than the world for a sense of depth.
+  parallax: {
+    clouds: 0.4, // clouds move at 40% of the camera's horizontal speed
+  },
+
   // Palette
   colors: {
     sky: '#5c94fc',

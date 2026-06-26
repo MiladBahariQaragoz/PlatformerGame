@@ -16,11 +16,20 @@ export class Player {
     this.facing = 1; // 1 = right, -1 = left
     this.onGround = false;
     this.jumpQueued = false; // set when a jump was pressed this step; scene consumes it
+    this.squash = 0; // landing squash (0 = neutral, 1 = max), decays each step (juice)
+  }
+
+  // Called by the scene when the player touches down, with a 0..1 impact strength.
+  onLand(impact) {
+    this.squash = Math.max(this.squash, impact);
   }
 
   // Reads input and sets movement intent (velocity). The scene applies the physics
   // step (integration, bounds, and — from "Add Jumping" on — gravity and collision).
-  update(_dt, input) {
+  update(dt, input) {
+    // Decay the landing squash back to neutral.
+    this.squash *= Math.max(0, 1 - dt * 9);
+
     const left = input.isDown('ArrowLeft') || input.isDown('KeyA');
     const right = input.isDown('ArrowRight') || input.isDown('KeyD');
     const dir = (right ? 1 : 0) - (left ? 1 : 0);
@@ -38,6 +47,26 @@ export class Player {
   render(ctx) {
     const { player, playerEye } = CONFIG.colors;
 
+    // Squash & stretch (juice): taller/thinner while airborne (scaled by vertical speed),
+    // shorter/wider just after landing. Scaled around the feet so the body stays grounded.
+    let sx = 1;
+    let sy = 1;
+    if (!this.onGround) {
+      const k = Math.min(0.22, Math.abs(this.vy) / 1600);
+      sx = 1 - k;
+      sy = 1 + k;
+    } else if (this.squash > 0.01) {
+      sx = 1 + 0.3 * this.squash;
+      sy = 1 - 0.3 * this.squash;
+    }
+
+    const cx = this.x + this.w / 2;
+    const footY = this.y + this.h;
+    ctx.save();
+    ctx.translate(cx, footY);
+    ctx.scale(sx, sy);
+    ctx.translate(-cx, -footY);
+
     // Body
     ctx.fillStyle = player;
     ctx.fillRect(this.x, this.y, this.w, this.h);
@@ -48,5 +77,7 @@ export class Player {
     const eyeX = this.facing >= 0 ? this.x + this.w - eyeSize - 5 : this.x + 5;
     ctx.fillStyle = playerEye;
     ctx.fillRect(eyeX, eyeY, eyeSize, eyeSize);
+
+    ctx.restore();
   }
 }

@@ -79,8 +79,12 @@ export class WorldScene {
       audio.jump();
     }
 
-    // 3. Physics step: gravity + collision resolution against the platforms.
+    // 3. Physics step: gravity + collision resolution against the platforms. Capture the
+    //    pre-step state so we can detect a fresh landing (for the squash juice).
+    const wasOnGround = p.onGround;
+    const fallSpeed = p.vy;
     moveAndCollide(p, this.level.platforms, dt);
+    if (!wasOnGround && p.onGround) p.onLand(Math.min(1, fallSpeed / 700));
 
     // 4. Keep the player inside the level's horizontal bounds.
     const maxX = this.level.width - p.w;
@@ -179,6 +183,14 @@ export class WorldScene {
     // Sun stays fixed in the sky (screen space), independent of scrolling.
     this.drawSun(ctx, width - 120, 90, 34);
 
+    // Background scenery: clouds drift behind everything, scrolling slower (parallax depth).
+    if (deco) {
+      ctx.save();
+      ctx.translate(-Math.round(this.camera.x * CONFIG.parallax.clouds), 0);
+      for (const c of deco.clouds) this.drawCloud(ctx, c);
+      ctx.restore();
+    }
+
     // Everything below scrolls with the camera: shift the world left by camera.x, plus the
     // current screen-shake offset (juice).
     ctx.save();
@@ -186,9 +198,6 @@ export class WorldScene {
       -Math.round(this.camera.x) + Math.round(this.camera.shakeX),
       Math.round(this.camera.shakeY)
     );
-
-    // Background scenery: clouds drift behind everything.
-    if (deco) for (const c of deco.clouds) this.drawCloud(ctx, c);
 
     // The path: every solid platform in the level, drawn as soil with a grassy cap.
     for (const p of this.level.platforms) {
