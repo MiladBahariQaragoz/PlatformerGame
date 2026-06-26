@@ -13,7 +13,7 @@
 - [x] Module Quiz 1 (+10 XP)
 
 # Move and Jump
-- [ ] Make It Move (+5 XP)
+- [x] Make It Move (+5 XP)
 - [ ] How Characters Move (+10 XP)
 - [ ] Add Jumping (+5 XP)
 - [ ] The Art of Jumping (+10 XP)

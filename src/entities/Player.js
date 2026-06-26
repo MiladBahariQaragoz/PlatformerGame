@@ -16,8 +16,15 @@ export class Player {
     this.facing = 1; // 1 = right, -1 = left (used once movement exists)
   }
 
-  update(_dt, _input) {
-    // No movement yet.
+  // Reads input and sets movement intent (velocity). The scene applies the physics
+  // step (integration, bounds, and — from "Add Jumping" on — gravity and collision).
+  update(_dt, input) {
+    const left = input.isDown('ArrowLeft') || input.isDown('KeyA');
+    const right = input.isDown('ArrowRight') || input.isDown('KeyD');
+    const dir = (right ? 1 : 0) - (left ? 1 : 0);
+
+    this.vx = dir * CONFIG.player.speed;
+    if (dir !== 0) this.facing = dir;
   }
 
   render(ctx) {

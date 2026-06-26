@@ -9,8 +9,8 @@ row with the commit that implemented it, so the game's history is auditable end 
 
 | Metric | Value |
 | --- | --- |
-| Tasks completed | 12 / 48 |
-| XP earned | 95 / 360 |
+| Tasks completed | 13 / 48 |
+| XP earned | 100 / 360 |
 
 ## Module 1 — Your Game World
 
@@ -33,7 +33,7 @@ row with the commit that implemented it, so the game's history is auditable end 
 
 | Task | XP | Status | Commit |
 | --- | --- | --- | --- |
-| Make It Move | 5 | ☐ | — |
+| Make It Move | 5 | ☑ | _pending_ |
 | How Characters Move | 10 | ☐ | — |
 | Add Jumping | 5 | ☐ | — |
 | The Art of Jumping | 10 | ☐ | — |

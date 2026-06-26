@@ -7,6 +7,10 @@
 export const level1 = {
   name: 'Green Hills 1',
 
+  // Total level width (px). Matches the viewport for now; the level is widened in
+  // "Extend the Level" and the camera follows the player in "Scroll the World".
+  width: 800,
+
   // Where the character starts — resting on the ground at the far left
   // (ground top is y=386, player is 40px tall, so y=346 sits flush).
   spawn: { x: 48, y: 346 },

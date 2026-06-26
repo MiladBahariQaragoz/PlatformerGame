@@ -12,8 +12,17 @@ export class WorldScene {
   }
 
   update(dt, input) {
-    // Entities update themselves; movement logic arrives in Module 2.
+    // 1. Entity decides its movement intent from input.
     this.player.update(dt, input);
+
+    // 2. Scene applies the physics step. Horizontal for now; gravity and collision
+    //    are added in "Add Jumping".
+    this.player.x += this.player.vx * dt;
+
+    // 3. Keep the player inside the level bounds.
+    const maxX = this.level.width - this.player.w;
+    if (this.player.x < 0) this.player.x = 0;
+    if (this.player.x > maxX) this.player.x = maxX;
   }
 
   render(ctx) {

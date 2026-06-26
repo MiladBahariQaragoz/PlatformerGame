@@ -16,10 +16,11 @@ export const CONFIG = {
   // Ground height (pixels from the bottom of the canvas).
   groundHeight: 64,
 
-  // Character dimensions (pixels).
+  // Character dimensions (pixels) and movement tuning.
   player: {
     width: 28,
     height: 40,
+    speed: 220, // horizontal run speed (px/s)
   },
 
   // Palette
