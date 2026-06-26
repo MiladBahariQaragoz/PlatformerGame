@@ -1,0 +1,12 @@
+# Normalize line endings so the repo stays consistent across machines.
+* text=auto eol=lf
+
+# Treat common binary assets as binary (no EOL conversion / diffing).
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.mp3 binary
+*.wav binary
+*.ogg binary
