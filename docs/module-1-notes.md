@@ -94,3 +94,30 @@ Atmosphere is the *emotional temperature* of the world, and color is the main le
 
 **How it maps to our code:** the gradient + sun in `WorldScene` plus the centralized
 `config.colors` palette are the tone knobs — change the palette, change the mood.
+
+---
+
+## World Building Recap (+10 XP)
+
+What Module 1 produced — a complete, static game world:
+
+| We built | Where it lives |
+| --- | --- |
+| The scene (sky + ground) | `scenes/WorldScene.js` |
+| The path (platforms as data) | `levels/level1.js` |
+| The character | `entities/Player.js` |
+| Decorations (clouds, bushes) | `levels/level1.js` + `WorldScene` |
+| Mood (sky gradient, sun) | `WorldScene` + `config.colors` |
+
+**Principles we locked in:**
+
+- **Data-driven content.** Layout and scenery are data in `level1.js`; the scene only knows
+  *how* to draw, not *what* — so new levels need data, not code.
+- **One palette.** All color lives in `config.colors`; tone is a one-file change.
+- **Back-to-front compositing.** A fixed draw order (sky → sun → clouds → platforms →
+  bushes → player) gives depth and keeps the action legible.
+- **Entities are bodies.** The player is `{x,y,w,h,vx,vy}`, ready to drop into the physics
+  helpers when movement arrives.
+
+**State of the game:** a still, readable, good-looking world with a character standing in
+it. Nothing moves yet — that's exactly where Module 2 (Move and Jump) picks up.
