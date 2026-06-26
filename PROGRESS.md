@@ -9,16 +9,16 @@ row with the commit that implemented it, so the game's history is auditable end 
 
 | Metric | Value |
 | --- | --- |
-| Tasks completed | 2 / 48 |
-| XP earned | 10 / 360 |
+| Tasks completed | 3 / 48 |
+| XP earned | 20 / 360 |
 
 ## Module 1 — Your Game World
 
 | Task | XP | Status | Commit |
 | --- | --- | --- | --- |
 | Set the Scene | 5 | ☑ | `d1db7e2` |
-| Build the Path | 5 | ☑ | _pending_ |
-| What Makes a Game World | 10 | ☐ | — |
+| Build the Path | 5 | ☑ | `7c9dacc` |
+| What Makes a Game World | 10 | ☑ | _pending_ |
 | Platforms and Level Layout | 10 | ☐ | — |
 | Add Your Character | 5 | ☐ | — |
 | Characters and Identity | 10 | ☐ | — |

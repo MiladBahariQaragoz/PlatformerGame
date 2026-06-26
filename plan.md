@@ -1,7 +1,7 @@
 # Your Game World
 - [x] Set the Scene (+5 XP)
 - [x] Build the Path (+5 XP)
-- [ ] What Makes a Game World (+10 XP)
+- [x] What Makes a Game World (+10 XP)
 - [ ] Platforms and Level Layout (+10 XP)
 - [ ] Add Your Character (+5 XP)
 - [ ] Characters and Identity (+10 XP)
