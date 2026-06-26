@@ -4,6 +4,7 @@
 import { CONFIG } from '../config.js';
 import { level1 } from '../levels/level1.js';
 import { Player } from '../entities/Player.js';
+import { moveAndCollide } from '../engine/physics.js';
 
 export class WorldScene {
   constructor(level = level1) {
@@ -12,17 +13,21 @@ export class WorldScene {
   }
 
   update(dt, input) {
+    const p = this.player;
+
     // 1. Entity decides its movement intent from input.
-    this.player.update(dt, input);
+    p.update(dt, input);
 
-    // 2. Scene applies the physics step. Horizontal for now; gravity and collision
-    //    are added in "Add Jumping".
-    this.player.x += this.player.vx * dt;
+    // 2. Apply a queued jump only when standing on solid ground.
+    if (p.jumpQueued && p.onGround) p.vy = -CONFIG.player.jumpSpeed;
 
-    // 3. Keep the player inside the level bounds.
-    const maxX = this.level.width - this.player.w;
-    if (this.player.x < 0) this.player.x = 0;
-    if (this.player.x > maxX) this.player.x = maxX;
+    // 3. Physics step: gravity + collision resolution against the platforms.
+    moveAndCollide(p, this.level.platforms, dt);
+
+    // 4. Keep the player inside the level's horizontal bounds.
+    const maxX = this.level.width - p.w;
+    if (p.x < 0) p.x = 0;
+    if (p.x > maxX) p.x = maxX;
   }
 
   render(ctx) {

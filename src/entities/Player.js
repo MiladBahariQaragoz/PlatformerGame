@@ -13,7 +13,9 @@ export class Player {
     this.h = CONFIG.player.height;
     this.vx = 0;
     this.vy = 0;
-    this.facing = 1; // 1 = right, -1 = left (used once movement exists)
+    this.facing = 1; // 1 = right, -1 = left
+    this.onGround = false;
+    this.jumpQueued = false; // set when a jump was pressed this step; scene consumes it
   }
 
   // Reads input and sets movement intent (velocity). The scene applies the physics
@@ -25,6 +27,12 @@ export class Player {
 
     this.vx = dir * CONFIG.player.speed;
     if (dir !== 0) this.facing = dir;
+
+    // Queue a jump on press (Space / Up / W). The scene applies it if grounded.
+    this.jumpQueued =
+      input.wasPressed('Space') ||
+      input.wasPressed('ArrowUp') ||
+      input.wasPressed('KeyW');
   }
 
   render(ctx) {

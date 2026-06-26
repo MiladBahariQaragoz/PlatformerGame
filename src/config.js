@@ -21,6 +21,7 @@ export const CONFIG = {
     width: 28,
     height: 40,
     speed: 220, // horizontal run speed (px/s)
+    jumpSpeed: 620, // initial upward velocity on jump (px/s)
   },
 
   // Palette

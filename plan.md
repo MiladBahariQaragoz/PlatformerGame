@@ -15,7 +15,7 @@
 # Move and Jump
 - [x] Make It Move (+5 XP)
 - [x] How Characters Move (+10 XP)
-- [ ] Add Jumping (+5 XP)
+- [x] Add Jumping (+5 XP)
 - [ ] The Art of Jumping (+10 XP)
 - [ ] Extend the Level (+5 XP)
 - [ ] Collision and Solid Ground (+10 XP)
