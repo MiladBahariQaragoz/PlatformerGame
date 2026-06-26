@@ -112,3 +112,32 @@ and *fun*:
 **How it maps to our code:** the responsive loop (`engine/game.js`), centralized tuning
 (`config.js`), and the fading hints (`WorldScene.drawHints`) are this module's feel work;
 the rest is scaffolded for Module 4.
+
+---
+
+## Movement Recap (+10 XP)
+
+What Module 2 turned the static world into — a game you can actually play:
+
+| We built | Where it lives |
+| --- | --- |
+| Horizontal movement | `entities/Player.js` + `WorldScene` |
+| Jumping (gravity + jump) | `WorldScene` + `config.player` |
+| Collision / solid ground | `engine/physics.js` (`moveAndCollide`) |
+| A wider, scrolling level | `levels/level1.js` (1600px) |
+| Follow camera | `engine/camera.js` |
+| Control hints HUD | `WorldScene.drawHints` |
+
+**Principles we locked in:**
+
+- **Intent vs. physics.** Entities express intent (velocity, queued jump); the scene + the
+  engine apply the rules. Clean seam, easy to extend.
+- **dt-scaled, fixed timestep.** Motion is frame-rate independent and deterministic.
+- **Axis-separated AABB collision.** Predictable "walls stop, floors hold" behavior, with
+  `onGround` as the shared signal between collision and jumping.
+- **Camera = offset.** World space stays simple; the camera is just what we look at.
+- **Tuning in `config.js`.** Speed, jump, gravity, timings are all dialed in one place.
+
+**State of the game:** a character that runs, jumps, lands on platforms, and explores a
+level that scrolls — the complete movement core. Module 3 adds stakes: collectibles,
+enemies, hazards, lives, and a level exit.

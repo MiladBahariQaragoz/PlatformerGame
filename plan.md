@@ -23,7 +23,7 @@
 - [x] Camera and Exploration (+10 XP)
 - [x] Add Control Hints (+5 XP)
 - [x] Game Feel and Polish (+10 XP)
-- [ ] Movement Recap (+10 XP)
+- [x] Movement Recap (+10 XP)
 - [ ] Module Quiz 2 (+10 XP)
 
 # Challenge and Reward
