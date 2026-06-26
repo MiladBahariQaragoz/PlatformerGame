@@ -1,5 +1,5 @@
 // The title screen. The first scene the game shows; pressing Start hands control to a fresh
-// WorldScene. Scene switching goes through the engine (Game.setScene) — the `enter(game)` hook
+// WorldScene. Scene switching goes through the engine (Game.setScene) - the `enter(game)` hook
 // gives us the reference, so menus and gameplay are separate screens, not global state.
 
 import { CONFIG } from '../config.js';

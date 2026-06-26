@@ -1,6 +1,6 @@
 // Game-agnostic image loading + drawing helpers. Images are cached by `src`, so asking for
 // the same picture twice returns the same <img> and it only downloads once. Drawing is
-// tolerant of an image that hasn't finished loading yet — callers check `imageReady` and draw
+// tolerant of an image that hasn't finished loading yet - callers check `imageReady` and draw
 // their own fallback until it has.
 
 const cache = new Map();

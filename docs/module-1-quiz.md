@@ -1,4 +1,4 @@
-# Module Quiz 1 — Your Game World
+# Module Quiz 1 - Your Game World
 
 Self-check covering Module 1. Answers below each question.
 
@@ -12,7 +12,7 @@ So new levels need new *data*, not new code. The scene knows only how to draw; t
 describes what to draw. This keeps the project scalable.
 
 **3. What makes a platform layout fair?**
-Reachability and rhythm — gaps sized to the character's jump arc, with consistent spacing
+Reachability and rhythm - gaps sized to the character's jump arc, with consistent spacing
 the player can learn, plus a readable path toward a clear goal.
 
 **4. Name two things that make a character readable at a glance.**
@@ -32,5 +32,5 @@ movement and collisions are added in Module 2.
 
 ---
 
-**Result:** Module 1 complete — the world is built, the character is in it, and the
+**Result:** Module 1 complete - the world is built, the character is in it, and the
 foundation is ready for movement.

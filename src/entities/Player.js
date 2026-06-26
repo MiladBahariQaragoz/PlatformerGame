@@ -29,7 +29,7 @@ export class Player {
   }
 
   // Reads input and sets movement intent (velocity). The scene applies the physics
-  // step (integration, bounds, and — from "Add Jumping" on — gravity and collision).
+  // step (integration, bounds, and - from "Add Jumping" on - gravity and collision).
   update(dt, input) {
     // Decay the landing squash back to neutral and tick down post-hit invincibility.
     this.squash *= Math.max(0, 1 - dt * 9);

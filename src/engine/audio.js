@@ -1,5 +1,5 @@
 // Game-agnostic sound via the Web Audio API. Effects are *synthesized* (oscillator sweeps),
-// so the game needs no audio files — it stays open-and-play with no binaries in the repo.
+// so the game needs no audio files - it stays open-and-play with no binaries in the repo.
 //
 // The AudioContext is created lazily and resumed on demand: browsers block audio until a user
 // gesture, and the first gameplay sound always follows a keypress, which satisfies that.
@@ -51,7 +51,7 @@ class AudioEngine {
     osc.stop(t + dur);
   }
 
-  // Event sounds — each is a small, recognizable shape.
+  // Event sounds - each is a small, recognizable shape.
   coin() {
     this.tone(880, 1320, 0.12, 'square', 0.8);
   }

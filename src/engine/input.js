@@ -1,4 +1,4 @@
-// Keyboard input. Game logic reads from this state inside update() — it must never
+// Keyboard input. Game logic reads from this state inside update() - it must never
 // attach its own DOM listeners. Tracks both "held" and "just pressed this frame".
 
 const held = new Set();

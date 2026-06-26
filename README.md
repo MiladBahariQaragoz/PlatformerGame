@@ -1,6 +1,6 @@
 # Platformer Game
 
-A 2D platformer built step by step with **vanilla JavaScript + HTML5 Canvas** — no build
+A 2D platformer built step by step with **vanilla JavaScript + HTML5 Canvas** - no build
 step, no dependencies. Just open `index.html` (or serve the folder) and play.
 
 The project follows the curriculum in [`plan.md`](./plan.md), worked through one task at a
@@ -15,7 +15,7 @@ No tooling required. Either:
 # Option A: open directly
 start index.html        # Windows
 
-# Option B: serve (recommended — avoids browser file:// limits on modules/assets)
+# Option B: serve (recommended - avoids browser file:// limits on modules/assets)
 python -m http.server 8000
 # then open http://localhost:8000
 ```
@@ -24,7 +24,7 @@ python -m http.server 8000
 
 ```
 .
-├── index.html            # Entry point — canvas + script loader
+├── index.html            # Entry point - canvas + script loader
 ├── src/
 │   ├── main.js           # Bootstraps the game
 │   ├── config.js         # Tunable constants (size, gravity, speeds)

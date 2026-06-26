@@ -40,7 +40,7 @@ export class WorldScene {
     // Race the clock: coins add time, distance is the score. (Endless mode only.)
     this.timeLeft = CONFIG.time.start;
     this.timeGainFlash = 0; // brief green pulse on the clock when time is gained
-    this.endReason = null; // 'time' | 'lives' — why the run ended
+    this.endReason = null; // 'time' | 'lives' - why the run ended
 
     // Build patrolling enemies from level data.
     this.enemies = (level.enemies ?? []).map((e) => new Enemy(e.x, e.y, e));
@@ -431,7 +431,7 @@ export class WorldScene {
     ctx.restore();
   }
 
-  // Distance travelled — the run's score — pinned to the top-right (endless mode).
+  // Distance travelled - the run's score - pinned to the top-right (endless mode).
   drawDistance(ctx) {
     if (!this.endless) return;
     ctx.save();

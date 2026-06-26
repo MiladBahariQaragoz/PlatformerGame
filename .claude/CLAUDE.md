@@ -1,11 +1,11 @@
-# CLAUDE.md — Platformer Game
+# CLAUDE.md - Platformer Game
 
 Guidance for Claude Code when working in this repo. Read before making changes.
 
 ## What this is
 
 A 2D platformer built in **vanilla JavaScript + HTML5 Canvas**. No framework, no build
-step, no dependencies — it runs by opening `index.html` or serving the folder. The work is
+step, no dependencies - it runs by opening `index.html` or serving the folder. The work is
 driven by the curriculum in [`../plan.md`](../plan.md), one task at a time.
 
 ## Two non-negotiables
@@ -59,13 +59,13 @@ driven by the curriculum in [`../plan.md`](../plan.md), one task at a time.
 
 ## Don't
 
-- Don't add npm packages or a bundler without being asked — it breaks "open and play".
+- Don't add npm packages or a bundler without being asked - it breaks "open and play".
 - Don't batch multiple curriculum tasks into one commit.
 - Don't leave `plan.md` / `PROGRESS.md` out of sync with the code.
 - Don't commit secrets or large binaries.
 
 ## Environment notes
 
-- Shell is PowerShell on Windows; the `gh` CLI is **not** installed — use plain `git`.
+- Shell is PowerShell on Windows; the `gh` CLI is **not** installed - use plain `git`.
 - Remote `origin` → https://github.com/MiladBahariQaragoz/PlatformerGame
 - Git identity is configured globally (MiladBahariQaragoz).

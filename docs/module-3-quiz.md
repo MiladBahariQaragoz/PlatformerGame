@@ -1,4 +1,4 @@
-# Module Quiz 3 — Challenge and Reward
+# Module Quiz 3 - Challenge and Reward
 
 Self-check covering Module 3. Answers below each question.
 
@@ -11,7 +11,7 @@ placement doubles as a breadcrumb trail guiding the player along the level's pat
 
 **2. One primitive powers collecting a coin, getting hurt by an enemy/spike, and reaching the
 exit. What is it?**
-AABB overlap (`engine/physics.js` `aabbOverlap` — do two boxes touch?). Each mechanic is the
+AABB overlap (`engine/physics.js` `aabbOverlap` - do two boxes touch?). Each mechanic is the
 same test with different *meaning*, so new gameplay needs no new physics.
 
 **3. How does the stomp distinguish "defeat the enemy" from "take damage"?**
@@ -22,7 +22,7 @@ Any other contact → `hitPlayer()`.
 **4. Why are the enemy's patrol and the spikes' placement deliberately predictable and
 clearable?**
 Fairness. Telegraphed, consistent, reachable-by-construction threats (the ~107px jump clears
-every spike strip) mean a death feels like the player's fault and the retry feels winnable —
+every spike strip) mean a death feels like the player's fault and the retry feels winnable -
 fair-but-hard, not a gotcha. Difficulty is mostly a data property.
 
 **5. What do lives add that a plain respawn didn't?**
@@ -36,14 +36,14 @@ game over) is defined once, so the next hazard type plugs into one well-tested p
 
 **7. How are the game-over and level-complete screens related?**
 They're symmetric: both freeze the world (the `update` guard) and draw a dim overlay with a
-message — two outcomes of the same small machine (`drawGameOver` / `drawLevelComplete`).
+message - two outcomes of the same small machine (`drawGameOver` / `drawLevelComplete`).
 
 **8. Where do all the Module 3 mechanics get their content, and why does that matter?**
 From level data in `levels/level1.js` (`collectibles`, `enemies`, `hazards`, `exit`). Keeping
-content as data means new levels need new data, not new code — the engine never changed.
+content as data means new levels need new data, not new code - the engine never changed.
 
 ---
 
-**Result:** Module 3 complete — the world is now a *game*: gather coins, dodge or stomp
+**Result:** Module 3 complete - the world is now a *game*: gather coins, dodge or stomp
 enemies, avoid spikes, manage three lives, and reach the flag to win. Module 4 adds the
-polish — juice, sound, menus, and a replayable retry.
+polish - juice, sound, menus, and a replayable retry.

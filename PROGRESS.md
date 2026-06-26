@@ -12,7 +12,7 @@ row with the commit that implemented it, so the game's history is auditable end 
 | Tasks completed | 48 / 48 |
 | XP earned | 360 / 360 |
 
-## Module 1 — Your Game World
+## Module 1 - Your Game World
 
 | Task | XP | Status | Commit |
 | --- | --- | --- | --- |
@@ -29,7 +29,7 @@ row with the commit that implemented it, so the game's history is auditable end 
 | World Building Recap | 10 | ☑ | `cdf7d44` |
 | Module Quiz 1 | 10 | ☑ | `dbd794f` |
 
-## Module 2 — Move and Jump
+## Module 2 - Move and Jump
 
 | Task | XP | Status | Commit |
 | --- | --- | --- | --- |
@@ -46,7 +46,7 @@ row with the commit that implemented it, so the game's history is auditable end 
 | Movement Recap | 10 | ☑ | `3277d59` |
 | Module Quiz 2 | 10 | ☑ | `8ef1681` |
 
-## Module 3 — Challenge and Reward
+## Module 3 - Challenge and Reward
 
 | Task | XP | Status | Commit |
 | --- | --- | --- | --- |
@@ -63,7 +63,7 @@ row with the commit that implemented it, so the game's history is auditable end 
 | Challenge Recap | 10 | ☑ | `9fa673a` |
 | Module Quiz 3 | 10 | ☑ | `2492ea2` |
 
-## Module 4 — Polish and Beyond
+## Module 4 - Polish and Beyond
 
 | Task | XP | Status | Commit |
 | --- | --- | --- | --- |

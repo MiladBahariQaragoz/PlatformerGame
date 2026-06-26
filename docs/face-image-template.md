@@ -1,7 +1,7 @@
 # Face image template
 
 The hero **and** the chaser can each wear a picture as their face. Drop in an image and it
-shows up automatically — no code changes needed beyond (optionally) pointing the config at your
+shows up automatically - no code changes needed beyond (optionally) pointing the config at your
 file. Until a valid image loads, the game falls back to a drawn face (an eye for the hero, glowing
 eyes for the chaser), so the game always runs.
 
@@ -19,7 +19,7 @@ eyes for the chaser), so the game always runs.
 | **Shape**           | Square (1:1). The face area is a circle inside that square.            |
 | **Resolution**      | 128×128 px or larger (256×256 is plenty). Smaller works but is softer. |
 | **Format**          | `.png` (transparency supported), `.jpg`, or `.svg`.                   |
-| **Background**      | Transparent or any solid colour — only the circle shows.              |
+| **Background**      | Transparent or any solid colour - only the circle shows.              |
 | **Framing**         | Centre the face; leave a little margin so it isn't cropped too tight. |
 | **File size**       | Keep it small (a few hundred KB max) so the page loads fast.          |
 
@@ -34,7 +34,7 @@ These two `*.svg` files are generated from uploaded pictures: the raster is resi
 and embedded as a data URI inside a standard SVG, so they draw on the canvas without any external
 fetch. To change a face, either replace the SVG, or add your own image file and update the
 matching `src` in [`src/config.js`](../src/config.js) (the loader also accepts `.png` / `.jpg`
-directly — an SVG wrapper is only needed if you specifically want an `.svg`).
+directly - an SVG wrapper is only needed if you specifically want an `.svg`).
 
 ### Two ways to use your own picture
 
@@ -59,6 +59,6 @@ The chaser is identical under `CONFIG.chaser.face` (its default `size` is `30`).
 
 ## Tuning
 
-- `size` — diameter the face is drawn at, in logical pixels. The hero body is 28×40, so ~24 fits
+- `size` - diameter the face is drawn at, in logical pixels. The hero body is 28×40, so ~24 fits
   neatly; bump it up for a bigger head.
-- `offsetY` — positive moves the face down, negative moves it up.
+- `offsetY` - positive moves the face down, negative moves it up.

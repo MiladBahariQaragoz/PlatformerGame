@@ -1,4 +1,4 @@
-# Module 2 — Move and Jump (lesson notes)
+# Module 2 - Move and Jump (lesson notes)
 
 Concept tasks captured as notes tied to the code, same as Module 1.
 
@@ -10,7 +10,7 @@ Movement is the first thing a player *feels*, so it's built on a few deliberate 
 
 - **Velocity, not teleport.** Input sets a velocity (`vx`), and position changes by
   `velocity × dt` each step. Tying motion to `dt` (delta time) makes speed frame-rate
-  independent — the character moves the same on a 60Hz or 144Hz display.
+  independent - the character moves the same on a 60Hz or 144Hz display.
 - **Intent vs. physics.** The entity decides *intent* (which way it wants to go); the scene
   applies *physics* (integration, bounds, later gravity/collision). This split keeps
   entities simple and the world rules in one place.
@@ -30,12 +30,12 @@ Movement is the first thing a player *feels*, so it's built on a few deliberate 
 A jump is just an upward velocity fighting gravity, but the *feel* is everything:
 
 - **The arc.** Jump height = `jumpSpeed² / (2 × gravity)`. With our 620 / 1800 values the
-  apex is ~107px — enough to clear the ~52px platform rises with margin. Tuning these two
+  apex is ~107px - enough to clear the ~52px platform rises with margin. Tuning these two
   numbers in `config.js` reshapes every jump in the game.
 - **Gravity sells weight.** Strong gravity = snappy, arcade jumps; weak gravity = floaty,
   moon-like. The number is a feel decision, not a physics fact.
 - **Grounded check.** You can only jump from solid ground (`onGround`), which the collision
-  step sets each frame. No mid-air jumps — unless we deliberately add a double jump later.
+  step sets each frame. No mid-air jumps - unless we deliberately add a double jump later.
 - **Reachability is a contract.** Because the jump arc and the level's gaps were tuned
   together (Module 1 layout), every gap is fair by construction.
 - **Feel upgrades to come (Module 4 juice):** variable jump height (cut the jump short on
@@ -52,7 +52,7 @@ A jump is just an upward velocity fighting gravity, but the *feel* is everything
 Collision is what makes geometry *solid* instead of decorative. Our approach:
 
 - **AABB.** Everything is an axis-aligned bounding box. Two boxes overlap only if they
-  overlap on *both* axes — cheap and exact for rectangles (`aabbOverlap`).
+  overlap on *both* axes - cheap and exact for rectangles (`aabbOverlap`).
 - **Axis-separated resolution.** We move and resolve one axis at a time: horizontal first,
   then vertical. Doing both at once makes corners ambiguous (do you stop sideways or land?);
   separating them gives clean "walls stop you, floors hold you" behavior.
@@ -84,7 +84,7 @@ The camera decides what the player sees, which shapes how a level *feels* to exp
   screen while the world scrolls underneath. Parallax (backgrounds scrolling slower than the
   foreground) is the natural next step for depth (a Module-4 juice candidate).
 - **Exploration is a reward.** A camera that reveals the world a screen at a time turns
-  movement into discovery — the off-screen path is a question the player wants to answer.
+  movement into discovery - the off-screen path is a question the player wants to answer.
 
 **How it maps to our code:** `engine/camera.js` holds the offset and the follow+clamp math;
 `WorldScene.render` draws the sky/sun in screen space, then translates by the camera for the
@@ -94,13 +94,13 @@ world.
 
 ## Game Feel and Polish (+10 XP)
 
-"Game feel" is the moment-to-moment satisfaction of control — the gap between *functional*
+"Game feel" is the moment-to-moment satisfaction of control - the gap between *functional*
 and *fun*:
 
 - **Responsiveness first.** Input must register instantly. Our fixed-timestep loop + reading
   input every step keeps controls tight; nothing buffers or lags.
 - **Communicate, don't assume.** A new player shouldn't guess the controls. The fading hint
-  HUD teaches them, then gets out of the way — present when useful, invisible when not.
+  HUD teaches them, then gets out of the way - present when useful, invisible when not.
 - **Readable state.** The player should always know what's happening: facing direction, when
   they're grounded, where the edges are. Clear silhouettes and a steady camera do this.
 - **Polish is many small things.** Fades, easing, and feedback each seem minor; together
@@ -117,7 +117,7 @@ the rest is scaffolded for Module 4.
 
 ## Movement Recap (+10 XP)
 
-What Module 2 turned the static world into — a game you can actually play:
+What Module 2 turned the static world into - a game you can actually play:
 
 | We built | Where it lives |
 | --- | --- |
@@ -139,5 +139,5 @@ What Module 2 turned the static world into — a game you can actually play:
 - **Tuning in `config.js`.** Speed, jump, gravity, timings are all dialed in one place.
 
 **State of the game:** a character that runs, jumps, lands on platforms, and explores a
-level that scrolls — the complete movement core. Module 3 adds stakes: collectibles,
+level that scrolls - the complete movement core. Module 3 adds stakes: collectibles,
 enemies, hazards, lives, and a level exit.

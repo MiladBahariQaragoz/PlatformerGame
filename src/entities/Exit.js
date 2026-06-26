@@ -1,4 +1,4 @@
-// The level exit — a goal flag. An AABB { x, y, w, h }; reaching it (overlap with the
+// The level exit - a goal flag. An AABB { x, y, w, h }; reaching it (overlap with the
 // player) completes the level. Drawn as a pole with a pennant that turns gold once reached.
 // Built from level data (`level.exit`).
 

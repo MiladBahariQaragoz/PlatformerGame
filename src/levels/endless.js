@@ -1,7 +1,7 @@
 // The endless run "level". Unlike the static level1, this has no fixed layout: it carries a
 // LevelGenerator the scene calls to extend the world rightward forever, and its floor is lava
 // instead of solid ground. Each call to createEndlessLevel() returns a fresh world (fresh
-// generator), so a new run is a clean slate — the same fresh-scene-per-run idea as retry.
+// generator), so a new run is a clean slate - the same fresh-scene-per-run idea as retry.
 
 import { CONFIG } from '../config.js';
 import { LevelGenerator } from './generator.js';
@@ -25,7 +25,7 @@ export function createEndlessLevel() {
     hazards: [],
     exit: null, // an endless run has no finish line
 
-    // No fixed scenery — the scene tiles clouds procedurally for the endless sky.
+    // No fixed scenery - the scene tiles clouds procedurally for the endless sky.
     decorations: null,
   };
 }

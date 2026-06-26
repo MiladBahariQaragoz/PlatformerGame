@@ -1,6 +1,6 @@
 // A patrolling ground enemy ("walker"). A body { x, y, w, h, vx, vy } so it reuses the
 // engine's gravity + collision (moveAndCollide). It walks back and forth, turning at walls
-// or at optional patrol bounds, and can be stomped from above — the scene flips `defeated`.
+// or at optional patrol bounds, and can be stomped from above - the scene flips `defeated`.
 //
 // Built from level data: { x, y, dir?, minX?, maxX? } (data-driven, no new code per enemy).
 
@@ -33,7 +33,7 @@ export class Enemy {
     if (this.vx < 0 && this.x <= this.minX) this.vx = CONFIG.enemy.speed;
     else if (this.vx > 0 && this.x + this.w >= this.maxX) this.vx = -CONFIG.enemy.speed;
 
-    // Physics step. A wall zeroes vx (axis-separated collision) — reverse if so.
+    // Physics step. A wall zeroes vx (axis-separated collision) - reverse if so.
     const dir = this.vx > 0 ? 1 : -1;
     moveAndCollide(this, platforms, dt);
     if (this.vx === 0) this.vx = -dir * CONFIG.enemy.speed;

@@ -28,7 +28,7 @@ src/main.js ──────────── bootstraps everything
 
 - **Scene:** an object/class exposing `update(dt, input)` and `render(ctx)`. The game loop
   owns one active scene at a time. Switching scenes (menu → play → game over) is how flow
-  works — no global tangle.
+  works - no global tangle.
 - **Entity:** has state (position, velocity, size) and `update(dt)` / `render(ctx)`.
   Entities are owned by a scene, which updates and draws them in order.
 - **Engine systems** never import from `entities/` or `scenes/`. Dependencies point

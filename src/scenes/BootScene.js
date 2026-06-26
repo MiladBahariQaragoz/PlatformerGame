@@ -1,5 +1,5 @@
 // Placeholder scene that proves the engine boots and the loop renders. It is NOT a
-// curriculum task — the first real scene (the game world) replaces/precedes it in
+// curriculum task - the first real scene (the game world) replaces/precedes it in
 // Module 1 (Set the Scene). Kept as a sanity check and a template for new scenes.
 
 import { CONFIG } from '../config.js';

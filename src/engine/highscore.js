@@ -1,6 +1,6 @@
 // Persistent high score via localStorage, keyed by name so it's game-agnostic. Every access
 // is guarded so the game still runs where storage is unavailable (private mode, file://
-// quirks, headless tests) — it just won't remember between sessions there.
+// quirks, headless tests) - it just won't remember between sessions there.
 
 export function getHighScore(key) {
   try {
@@ -14,6 +14,6 @@ export function setHighScore(key, value) {
   try {
     localStorage.setItem(key, String(value));
   } catch {
-    /* storage unavailable — ignore */
+    /* storage unavailable - ignore */
   }
 }

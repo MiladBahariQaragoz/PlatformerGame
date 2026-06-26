@@ -1,5 +1,5 @@
 // The pursuer. A floating menace that trails the player and closes the gap as the race clock
-// runs down — far back when there's plenty of time, right on the player's heels when it's
+// runs down - far back when there's plenty of time, right on the player's heels when it's
 // nearly up, and catching them the moment time hits zero. It floats (ignoring platforms and
 // gravity) so it can always track the player no matter the terrain.
 //

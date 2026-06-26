@@ -1,11 +1,11 @@
-# Module Quiz 2 — Move and Jump
+# Module Quiz 2 - Move and Jump
 
 Self-check covering Module 2. Answers below each question.
 
 ---
 
 **1. Why is movement scaled by `dt` (delta time)?**
-So speed is frame-rate independent — the character covers the same distance per second on a
+So speed is frame-rate independent - the character covers the same distance per second on a
 60Hz or a 144Hz display. Position changes by `velocity × dt` each fixed step.
 
 **2. What's the "intent vs. physics" split?**
@@ -37,5 +37,5 @@ follows the player and clamps to the level edges.
 
 ---
 
-**Result:** Module 2 complete — the world is alive: run, jump, land, and explore. Next up,
+**Result:** Module 2 complete - the world is alive: run, jump, land, and explore. Next up,
 Module 3 adds challenge and reward.

@@ -1,4 +1,4 @@
-// Level 1 — described as data so new levels need new data, not new code (scalable).
+// Level 1 - described as data so new levels need new data, not new code (scalable).
 // The engine/scene consumes this; it never hard-codes layout.
 //
 // Coordinates: top-left origin, +x right, +y down. Canvas is 800x450, ground is the
@@ -7,11 +7,11 @@
 export const level1 = {
   name: 'Green Hills 1',
 
-  // Total level width (px) — wider than the 800px viewport, so the world scrolls. The
+  // Total level width (px) - wider than the 800px viewport, so the world scrolls. The
   // camera follows the player in "Scroll the World".
   width: 1600,
 
-  // Where the character starts — resting on the ground at the far left
+  // Where the character starts - resting on the ground at the far left
   // (ground top is y=386, player is 40px tall, so y=346 sits flush).
   spawn: { x: 48, y: 346 },
 
@@ -67,7 +67,7 @@ export const level1 = {
     { x: 1290, y: 366, w: 80, h: 20 },
   ],
 
-  // Non-interactive scenery — drawn behind the platforms and player. Pure decoration,
+  // Non-interactive scenery - drawn behind the platforms and player. Pure decoration,
   // kept as data so a level's look is part of its description.
   decorations: {
     clouds: [

@@ -1,11 +1,11 @@
-// Central place for tunable constants. Reference these — never hard-code values
+// Central place for tunable constants. Reference these - never hard-code values
 // elsewhere. Curriculum tasks add to this file as the game grows.
 
 export const CONFIG = {
   // Game identity (shown on menus).
   game: {
     title: 'LAVA RUN',
-    subtitle: 'race the clock — grab coins for time, distance is your score',
+    subtitle: 'race the clock - grab coins for time, distance is your score',
     storageKey: 'lavaRunHighScore', // localStorage key for the persisted best distance
   },
 
@@ -141,7 +141,7 @@ export const CONFIG = {
   endless: {
     minTopY: 110, // highest a platform top may sit (px from canvas top)
     clearanceAboveLava: 64, // platforms stay at least this far above the lava surface
-    maxRise: 78, // biggest upward step (px) — under the ~107px jump height, for margin
+    maxRise: 78, // biggest upward step (px) - under the ~107px jump height, for margin
     maxDrop: 150, // biggest downward step (px)
     minGap: 46, // smallest horizontal gap between platforms (px)
     maxGap: 230, // hard cap on the gap (px)

@@ -1,4 +1,4 @@
-// A static hazard (spike strip). An AABB { x, y, w, h } the player must avoid — touching it
+// A static hazard (spike strip). An AABB { x, y, w, h } the player must avoid - touching it
 // sends them back to spawn (and, once the lives system exists, costs a life). Drawn as a row
 // of spikes spanning the box. Built from level data (data-driven, no new code per hazard).
 

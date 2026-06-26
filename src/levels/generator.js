@@ -83,7 +83,7 @@ export class LevelGenerator {
     const safe = this.count <= e.safeStart;
 
     // 4. Coins: exactly one per `coinPeriod` platforms, placed on a random platform within
-    //    each window. Sparse on purpose — coins are a time refill, so the clock still trends
+    //    each window. Sparse on purpose - coins are a time refill, so the clock still trends
     //    down between them and the run stays a race.
     const period = e.coinPeriod;
     const win = Math.floor((this.count - 1) / period);
@@ -99,8 +99,8 @@ export class LevelGenerator {
     const hasCoin = out.coins.length > 0;
 
     // 5. A threat on wide-enough platforms (so there's always room to land): an enemy, or a
-    //    spike strip, or nothing. A platform carrying corn never also gets a spike strip — corn
-    //    must never sit on a hazard — so the kernel always stays safe to grab. (An enemy is
+    //    spike strip, or nothing. A platform carrying corn never also gets a spike strip - corn
+    //    must never sit on a hazard - so the kernel always stays safe to grab. (An enemy is
     //    still allowed: it's avoidable/stompable and the corn floats clear above it.)
     if (!safe && w >= 120) {
       const roll = Math.random();

@@ -18,7 +18,7 @@ export class Game {
 
     // Size the canvas for the display's pixel density. The game draws in logical CONFIG.width ×
     // CONFIG.height units, but on a HiDPI screen (devicePixelRatio > 1) a backing store of that
-    // size gets stretched by the browser and looks blocky — which is why it was crisp locally
+    // size gets stretched by the browser and looks blocky - which is why it was crisp locally
     // (DPR 1) but pixelated on the deployed build viewed on a retina/scaled display. We give the
     // canvas a backing store of width·dpr and scale the context, so one logical unit maps to
     // exactly `dpr` device pixels and everything renders sharp.
@@ -40,7 +40,7 @@ export class Game {
   }
 
   // Scale the logical CONFIG.width × CONFIG.height view up to fill the window (preserving aspect
-  // ratio — the page background letterboxes the rest), and match the backing store to the device
+  // ratio - the page background letterboxes the rest), and match the backing store to the device
   // pixel ratio so it stays crisp. Scenes keep drawing in logical coordinates. Safe to call
   // repeatedly (resize, fullscreen change, moving between monitors).
   resize() {

@@ -1,4 +1,4 @@
-// The end-of-run screen. Reached from WorldScene after the run ends — for either outcome,
+// The end-of-run screen. Reached from WorldScene after the run ends - for either outcome,
 // since win and lose are two results of one screen (symmetric ends). Offers retry (a fresh
 // WorldScene) or a return to the title. Shows the run's score, the persisted best, and why
 // the run ended; stats are passed in by the caller.
@@ -13,7 +13,7 @@ const RETRY_KEYS = ['Space', 'Enter', 'KeyR'];
 export class GameOverScene {
   constructor(result = 'lose', stats = {}) {
     this.result = result; // 'win' | 'lose'
-    // { score, best, isNewBest, reason, coins, distance, total } — some fields may be null.
+    // { score, best, isNewBest, reason, coins, distance, total } - some fields may be null.
     this.stats = stats;
     this.elapsed = 0;
     this.bgImg = getImage(CONFIG.gameOver.background.src);
@@ -65,7 +65,7 @@ export class GameOverScene {
       ctx.fillText(why, cx, height / 2 - 42);
     }
 
-    // Score — the run's distance — as the headline number.
+    // Score - the run's distance - as the headline number.
     const unit = distance != null ? ' m' : '';
     ctx.fillStyle = colors.text;
     ctx.font = '18px system-ui, sans-serif';
@@ -99,7 +99,7 @@ export class GameOverScene {
 
     ctx.fillStyle = colors.text;
     ctx.font = '13px system-ui, sans-serif';
-    ctx.fillText('Esc — title screen', cx, height / 2 + 146);
+    ctx.fillText('Esc - title screen', cx, height / 2 + 146);
   }
 
   // The screen's backdrop: the configured image if it has loaded, otherwise a procedural
