@@ -85,3 +85,34 @@ the feeling that a death was your fault and the next try is winnable:
 hazards/enemies in clearable spots, tuned against `config.player` (speed, jump) and
 `config.gravity`. The consistent, instant reset is `WorldScene.respawnPlayer()`; the
 predictable enemy is `Enemy`'s fixed patrol. Nothing here is random.
+
+---
+
+## Stakes and Consequence (+10 XP)
+
+A challenge only matters if failing it *costs* something. Lives turn "oops, reset" into
+"careful — you only get three":
+
+- **Consequence makes skill meaningful.** Before lives, a spike was a minor inconvenience.
+  With a finite life count, every avoidable hit is a real loss, so playing well actually
+  pays off. Stakes are what convert *movement* into *mastery*.
+- **A resource to manage.** Lives are a budget. The player now weighs "is that guarded coin
+  worth risking a life?" — the same risk/reward calculus that makes the whole loop tick. A
+  reward (coin) and a stake (life) are two sides of one decision.
+- **Fail states need a floor.** Infinite retries have no tension; instant total failure is
+  cruel. Three lives is the middle path: mistakes are survivable, but not free. The number
+  lives in `config.lives.start`, so the whole difficulty can be dialed from one place.
+- **Show the stake, always.** The heart HUD keeps the cost visible. A resource the player
+  can't see can't be managed — feedback is what makes the stake *felt* rather than just
+  enforced.
+- **One damage path, many sources.** Enemies and spikes both funnel through a single
+  `hitPlayer()`. Centralizing "what happens when you get hurt" means the next hazard type
+  (or a future shield power-up) plugs into one well-tested place, not five.
+- **Game over is a soft wall, for now.** At zero lives the world freezes and announces the
+  end. The *retry* — turning that wall back into a fresh attempt — is its own Module 4 task
+  (Game Over and Retry); here we just establish the consequence.
+
+**How it maps to our code:** `WorldScene` holds `lives` and `gameOver`. Every hit calls
+`hitPlayer()`, which decrements and either `respawnPlayer()`s or trips `gameOver`; `update`
+bails immediately while `gameOver` is set. `drawLives` shows the hearts and `drawGameOver`
+the end screen. The starting count is `config.lives.start`.
