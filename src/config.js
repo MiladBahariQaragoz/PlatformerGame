@@ -74,6 +74,11 @@ export const CONFIG = {
     volume: 0.14,
   },
 
+  // Scene flow timing.
+  flow: {
+    endDelay: 1.0, // seconds the world lingers (juice settling) before the end screen
+  },
+
   // Palette
   colors: {
     sky: '#5c94fc',
@@ -101,7 +106,7 @@ export const CONFIG = {
     exitPole: '#dfe6e9',
     exitFlag: '#27ae60',
     exitFlagReached: '#f1c40f',
-    overlay: 'rgba(0, 0, 0, 0.55)',
+    menuBg: '#1b2330',
     text: '#ffffff',
   },
 };

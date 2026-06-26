@@ -12,6 +12,7 @@ import { moveAndCollide, aabbOverlap } from '../engine/physics.js';
 import { Camera } from '../engine/camera.js';
 import { Particles } from '../engine/particles.js';
 import { audio } from '../engine/audio.js';
+import { GameOverScene } from './GameOverScene.js';
 
 export class WorldScene {
   constructor(level = level1) {
@@ -38,13 +39,30 @@ export class WorldScene {
     // Lives: spend one per hit; at zero the run ends.
     this.lives = CONFIG.lives.start;
     this.gameOver = false;
+
+    // When the run ends, the world lingers briefly (juice settling) before the end screen.
+    this.endTimer = 0;
+  }
+
+  // The engine hands us its reference so we can switch to the end screen.
+  enter(game) {
+    this.game = game;
   }
 
   update(dt, input) {
-    // Juice keeps animating even on the end screens so bursts settle and shake decays.
+    // Juice keeps animating even after the run ends so bursts settle and shake decays.
     this.particles.update(dt);
     this.camera.update(dt);
-    if (this.gameOver || this.levelComplete) return; // freeze the sim once ended or won
+
+    // Once ended or won, freeze the sim and count down to the end screen.
+    if (this.gameOver || this.levelComplete) {
+      this.endTimer -= dt;
+      if (this.endTimer <= 0 && this.game) {
+        const result = this.levelComplete ? 'win' : 'lose';
+        this.game.setScene(new GameOverScene(result, this.score, this.collectibles.length));
+      }
+      return;
+    }
 
     const p = this.player;
     this.elapsed += dt;
@@ -113,6 +131,7 @@ export class WorldScene {
     if (this.exit && aabbOverlap(p, this.exit)) {
       this.exit.reached = true;
       this.levelComplete = true;
+      this.endTimer = CONFIG.flow.endDelay;
       audio.win();
     }
   }
@@ -127,6 +146,7 @@ export class WorldScene {
     if (this.lives <= 0) {
       this.lives = 0;
       this.gameOver = true;
+      this.endTimer = CONFIG.flow.endDelay;
       audio.gameOver();
     } else {
       audio.hit();
@@ -197,26 +217,20 @@ export class WorldScene {
 
     ctx.restore();
 
-    // HUD (screen space): coin score + lives, then control hints (fading) or game over.
+    // HUD (screen space): coin score + lives, then the end fade or the fading control hints.
     this.drawScore(ctx);
     this.drawLives(ctx);
-    if (this.gameOver) this.drawGameOver(ctx);
-    else if (this.levelComplete) this.drawLevelComplete(ctx);
+    if (this.gameOver || this.levelComplete) this.drawEndFade(ctx);
     else this.drawHints(ctx);
   }
 
-  // Win screen: announce completion and show the coins gathered.
-  drawLevelComplete(ctx) {
-    const { width, height, colors } = CONFIG;
+  // Darken the world as the end timer runs down, easing into the end screen.
+  drawEndFade(ctx) {
+    const t = 1 - Math.max(0, this.endTimer) / CONFIG.flow.endDelay; // 0 → 1
     ctx.save();
-    ctx.fillStyle = colors.overlay;
-    ctx.fillRect(0, 0, width, height);
-    ctx.fillStyle = colors.text;
-    ctx.textAlign = 'center';
-    ctx.font = 'bold 40px system-ui, sans-serif';
-    ctx.fillText('LEVEL COMPLETE', width / 2, height / 2 - 6);
-    ctx.font = '16px system-ui, sans-serif';
-    ctx.fillText(`Coins  ${this.score} / ${this.collectibles.length}`, width / 2, height / 2 + 28);
+    ctx.globalAlpha = 0.6 * t;
+    ctx.fillStyle = '#000';
+    ctx.fillRect(0, 0, CONFIG.width, CONFIG.height);
     ctx.restore();
   }
 
@@ -227,21 +241,6 @@ export class WorldScene {
     ctx.font = '16px system-ui, sans-serif';
     ctx.textAlign = 'right';
     ctx.fillText('♥'.repeat(this.lives), CONFIG.width - 16, 50);
-    ctx.restore();
-  }
-
-  // Dim the world and announce the end of the run (in-game retry comes in Module 4).
-  drawGameOver(ctx) {
-    const { width, height, colors } = CONFIG;
-    ctx.save();
-    ctx.fillStyle = colors.overlay;
-    ctx.fillRect(0, 0, width, height);
-    ctx.fillStyle = colors.text;
-    ctx.textAlign = 'center';
-    ctx.font = 'bold 40px system-ui, sans-serif';
-    ctx.fillText('GAME OVER', width / 2, height / 2 - 6);
-    ctx.font = '16px system-ui, sans-serif';
-    ctx.fillText('Refresh the page to try again', width / 2, height / 2 + 28);
     ctx.restore();
   }
 
