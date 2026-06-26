@@ -9,8 +9,8 @@ row with the commit that implemented it, so the game's history is auditable end 
 
 | Metric | Value |
 | --- | --- |
-| Tasks completed | 27 / 48 |
-| XP earned | 210 / 360 |
+| Tasks completed | 28 / 48 |
+| XP earned | 220 / 360 |
 
 ## Module 1 — Your Game World
 
@@ -52,8 +52,8 @@ row with the commit that implemented it, so the game's history is auditable end 
 | --- | --- | --- | --- |
 | Add Collectibles | 5 | ☑ | `a363842` |
 | Rewards and Motivation | 10 | ☑ | `979ca87` |
-| Add an Enemy | 5 | ☑ | `PENDING` |
-| Enemies and Obstacles | 10 | ☐ | — |
+| Add an Enemy | 5 | ☑ | `5f69ea0` |
+| Enemies and Obstacles | 10 | ☑ | `PENDING` |
 | Add Hazards | 5 | ☐ | — |
 | Difficulty and Fairness | 10 | ☐ | — |
 | Add a Lives System | 5 | ☐ | — |

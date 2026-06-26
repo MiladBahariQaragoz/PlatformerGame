@@ -27,3 +27,30 @@ the simplest reward loop there is:
 into `Collectible` entities by `WorldScene`. Collection is an AABB overlap test
 (`engine/physics.js` `aabbOverlap`) that flips `collected` and bumps `score`; the count is
 drawn by `WorldScene.drawScore`. Tunables (size, bob) live in `config.coin`.
+
+---
+
+## Enemies and Obstacles (+10 XP)
+
+If coins are the carrot, enemies are the stick — they turn a stroll into a *decision*:
+
+- **An enemy is a moving "no".** A coin says "come here"; an enemy says "not like that." The
+  tension between the two is where platforming lives: the coin you want is guarded by the
+  thing you must avoid or defeat.
+- **Readable behaviour beats clever AI.** Our walker just paces back and forth between
+  bounds. Predictable patterns are a *feature*: the player learns the rhythm and times their
+  move. Randomness here would feel unfair, not challenging.
+- **Reuse the physics.** The enemy is the same kind of body as the player — `{x,y,w,h,vx,vy}`
+  through `moveAndCollide` — so it falls, lands, and bumps walls for free. New behaviour, no
+  new physics. (This is the "engine vs. game" split paying off.)
+- **Give the player an answer.** An obstacle with no counter is just punishment. The stomp —
+  land on top to defeat it, and rebound — turns the enemy into an *opportunity*: a stepping
+  stone, a risk you can choose to take for the coin behind it.
+- **Direction matters.** Hitting an enemy from the side is bad; from above is good. That one
+  rule (compare the player's falling velocity and feet position to the enemy's top) creates
+  the whole stomp mechanic — and teaches the player to commit to the jump.
+
+**How it maps to our code:** `entities/Enemy.js` holds the patrol + turn logic and reuses
+`moveAndCollide`; enemies are level data (`enemies`). `WorldScene.update` does the
+above-vs-side check: from above → `defeated` + bounce (`config.enemy.stompBounce`); otherwise
+`respawnPlayer()`. Tunables live in `config.enemy`.

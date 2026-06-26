@@ -30,7 +30,7 @@
 - [x] Add Collectibles (+5 XP)
 - [x] Rewards and Motivation (+10 XP)
 - [x] Add an Enemy (+5 XP)
-- [ ] Enemies and Obstacles (+10 XP)
+- [x] Enemies and Obstacles (+10 XP)
 - [ ] Add Hazards (+5 XP)
 - [ ] Difficulty and Fairness (+10 XP)
 - [ ] Add a Lives System (+5 XP)
