@@ -78,4 +78,4 @@ row with the commit that implemented it, so the game's history is auditable end 
 | Final Creative Touches | 5 | ☑ | `188a623` |
 | The Complete Picture | 10 | ☑ | `dc83088` |
 | Polish Recap | 10 | ☑ | `ba1f5fc` |
-| Module Quiz 4 | 10 | ☑ | `PENDING` |
+| Module Quiz 4 | 10 | ☑ | `ee5871c` |
