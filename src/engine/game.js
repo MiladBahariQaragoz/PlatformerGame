@@ -15,8 +15,15 @@ export class Game {
   constructor(canvas) {
     this.canvas = canvas;
     this.ctx = canvas.getContext('2d');
-    canvas.width = CONFIG.width;
-    canvas.height = CONFIG.height;
+
+    // Size the canvas for the display's pixel density. The game draws in logical CONFIG.width ×
+    // CONFIG.height units, but on a HiDPI screen (devicePixelRatio > 1) a backing store of that
+    // size gets stretched by the browser and looks blocky — which is why it was crisp locally
+    // (DPR 1) but pixelated on the deployed build viewed on a retina/scaled display. We give the
+    // canvas a backing store of width·dpr and scale the context, so one logical unit maps to
+    // exactly `dpr` device pixels and everything renders sharp.
+    this.resize();
+    window.addEventListener('resize', () => this.resize());
 
     this.scene = null;
     this.step = 1 / CONFIG.fps;
@@ -25,6 +32,18 @@ export class Game {
     this.running = false;
 
     initInput();
+  }
+
+  // Match the backing store to the device pixel ratio and lock the context to logical units.
+  // Safe to call repeatedly (e.g. on resize or when the page is dragged between monitors).
+  resize() {
+    const dpr = window.devicePixelRatio || 1;
+    this.canvas.width = Math.round(CONFIG.width * dpr);
+    this.canvas.height = Math.round(CONFIG.height * dpr);
+    this.canvas.style.width = `${CONFIG.width}px`;
+    this.canvas.style.height = `${CONFIG.height}px`;
+    // Reset any prior scale, then scale so scenes can keep drawing in logical coordinates.
+    this.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   }
 
   // Swap the active scene. Calls enter()/exit() hooks if the scene defines them.
