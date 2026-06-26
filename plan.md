@@ -42,7 +42,7 @@
 
 # Polish and Beyond
 - [x] Add Juice Effects (+5 XP)
-- [ ] Juice and Feedback (+10 XP)
+- [x] Juice and Feedback (+10 XP)
 - [ ] Add Sound Effects (+5 XP)
 - [ ] Sound Design (+10 XP)
 - [ ] Add a Start Screen (+5 XP)
