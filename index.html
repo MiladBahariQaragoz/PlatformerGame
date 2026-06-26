@@ -7,7 +7,9 @@
   <style>
     html, body {
       margin: 0;
+      width: 100%;
       height: 100%;
+      overflow: hidden; /* the canvas is sized to fit the window; never scroll */
       background: #1a1a24;
       display: flex;
       align-items: center;
@@ -15,6 +17,7 @@
       font-family: system-ui, sans-serif;
     }
     canvas {
+      display: block;
       background: #000;
       /* The game is drawn with smooth vector shapes (not pixel art), and the canvas is sized for
          the display's pixel density in JS — so let the browser render it smoothly. `pixelated`

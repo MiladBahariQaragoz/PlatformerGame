@@ -24,6 +24,11 @@ export class Game {
     // exactly `dpr` device pixels and everything renders sharp.
     this.resize();
     window.addEventListener('resize', () => this.resize());
+    // Fullscreen on F; re-fit when entering/leaving fullscreen (window size changes).
+    window.addEventListener('keydown', (e) => {
+      if (e.code === 'KeyF') this.toggleFullscreen();
+    });
+    document.addEventListener('fullscreenchange', () => this.resize());
 
     this.scene = null;
     this.step = 1 / CONFIG.fps;
@@ -34,16 +39,30 @@ export class Game {
     initInput();
   }
 
-  // Match the backing store to the device pixel ratio and lock the context to logical units.
-  // Safe to call repeatedly (e.g. on resize or when the page is dragged between monitors).
+  // Scale the logical CONFIG.width × CONFIG.height view up to fill the window (preserving aspect
+  // ratio — the page background letterboxes the rest), and match the backing store to the device
+  // pixel ratio so it stays crisp. Scenes keep drawing in logical coordinates. Safe to call
+  // repeatedly (resize, fullscreen change, moving between monitors).
   resize() {
     const dpr = window.devicePixelRatio || 1;
-    this.canvas.width = Math.round(CONFIG.width * dpr);
-    this.canvas.height = Math.round(CONFIG.height * dpr);
-    this.canvas.style.width = `${CONFIG.width}px`;
-    this.canvas.style.height = `${CONFIG.height}px`;
-    // Reset any prior scale, then scale so scenes can keep drawing in logical coordinates.
-    this.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const scale = Math.min(window.innerWidth / CONFIG.width, window.innerHeight / CONFIG.height);
+    const cssW = CONFIG.width * scale;
+    const cssH = CONFIG.height * scale;
+    this.canvas.style.width = `${cssW}px`;
+    this.canvas.style.height = `${cssH}px`;
+    this.canvas.width = Math.round(cssW * dpr);
+    this.canvas.height = Math.round(cssH * dpr);
+    // Map one logical unit to `scale·dpr` device pixels.
+    this.ctx.setTransform(scale * dpr, 0, 0, scale * dpr, 0, 0);
+  }
+
+  // Toggle real (OS) fullscreen on the whole page; resize() refits the canvas on the change.
+  toggleFullscreen() {
+    if (document.fullscreenElement) {
+      document.exitFullscreen?.();
+    } else {
+      document.documentElement.requestFullscreen?.();
+    }
   }
 
   // Swap the active scene. Calls enter()/exit() hooks if the scene defines them.

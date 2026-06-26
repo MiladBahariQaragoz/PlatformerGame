@@ -486,7 +486,7 @@ export class WorldScene {
     ctx.textAlign = 'left';
     ctx.fillText('Move:  ← →  or  A D', 16, 28);
     ctx.fillText('Jump:  Space  /  ↑  /  W', 16, 48);
-    ctx.fillText('Mute:  M', 16, 68);
+    ctx.fillText('Mute:  M    Fullscreen:  F', 16, 68);
     ctx.restore();
   }
 

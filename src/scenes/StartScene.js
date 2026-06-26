@@ -74,6 +74,6 @@ export class StartScene {
     // Quiet controls line.
     ctx.fillStyle = colors.text;
     ctx.font = '13px system-ui, sans-serif';
-    ctx.fillText('Move ← →   ·   Jump Space   ·   Mute M', width / 2, groundY + 28);
+    ctx.fillText('Move ← →   ·   Jump Space   ·   Mute M   ·   Fullscreen F', width / 2, groundY + 28);
   }
 }
