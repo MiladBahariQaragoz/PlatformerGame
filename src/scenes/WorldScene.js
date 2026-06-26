@@ -9,6 +9,7 @@ import { Collectible } from '../entities/Collectible.js';
 import { Enemy } from '../entities/Enemy.js';
 import { Hazard } from '../entities/Hazard.js';
 import { Exit } from '../entities/Exit.js';
+import { Chaser } from '../entities/Chaser.js';
 import { moveAndCollide, aabbOverlap } from '../engine/physics.js';
 import { Camera } from '../engine/camera.js';
 import { Particles } from '../engine/particles.js';
@@ -51,6 +52,12 @@ export class WorldScene {
     this.exit = level.exit ? new Exit(level.exit.x, level.exit.y, level.exit.w, level.exit.h) : null;
     this.levelComplete = false;
 
+    // The pursuer (endless mode): trails the player and closes in as the clock runs down,
+    // catching them when time hits zero. Starts a full gap behind the spawn.
+    this.chaser = this.endless
+      ? new Chaser(level.spawn.x - CONFIG.chaser.maxGap, level.spawn.y)
+      : null;
+
     // Lives: spend one per hit; at zero the run ends.
     this.lives = CONFIG.lives.start;
     this.gameOver = false;
@@ -91,7 +98,7 @@ export class WorldScene {
       this.timeLeft -= dt;
       if (this.timeLeft <= 0) {
         this.timeLeft = 0;
-        this.endRun('time');
+        this.endRun('caught');
         return;
       }
     }
@@ -131,6 +138,12 @@ export class WorldScene {
       this.generateAhead();
       this.cullBehind();
       this.distance = Math.max(this.distance, Math.floor(p.x / 50));
+    }
+
+    // 5c. The pursuer eases toward a gap behind the player set by how much time is left.
+    if (this.chaser) {
+      const frac = Math.max(0, Math.min(1, this.timeLeft / CONFIG.chaser.fullGapTime));
+      this.chaser.update(dt, p, frac);
     }
 
     // 6. Coins: animate, then collect any the player is overlapping this step.
@@ -330,6 +343,9 @@ export class WorldScene {
     if (this.exit) this.exit.render(ctx);
     for (const h of this.hazards) h.render(ctx);
     for (const e of this.enemies) e.render(ctx);
+
+    // The pursuer, drawn behind the player so it reads as looming up from behind.
+    if (this.chaser) this.chaser.render(ctx);
 
     // The character, drawn on top of the world.
     this.player.render(ctx);

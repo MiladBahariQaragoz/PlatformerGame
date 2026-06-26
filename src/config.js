@@ -99,6 +99,32 @@ export const CONFIG = {
     endDelay: 1.0, // seconds the world lingers (juice settling) before the end screen
   },
 
+  // The pursuer: a menace that trails the player and closes the gap as the clock runs down,
+  // catching them the instant time hits zero. Floats (ignores platforms) so it always tracks.
+  chaser: {
+    width: 40,
+    height: 46,
+    fullGapTime: 10, // with this many seconds (or more) left, it sits at maxGap behind
+    minGap: 4, // px behind the player when time is nearly up (catching distance)
+    maxGap: 560, // px behind the player when there's plenty of time
+    ease: 6, // how quickly it eases toward its target position (higher = snappier)
+    bobAmount: 6, // px of vertical float bob
+    bobSpeed: 4, // bob rate (radians/s)
+    // Optional face image, same contract as the player's face (see docs/face-image-template.md).
+    face: {
+      src: 'assets/images/chaser-face.svg',
+      size: 30,
+      offsetY: 0,
+    },
+  },
+
+  // Game-over screen backdrop. If `background.src` loads it covers the screen; otherwise a
+  // themed ember/lava backdrop is drawn procedurally (so the screen always has a background).
+  gameOver: {
+    background: { src: 'assets/images/gameover-bg.svg' },
+    emberCount: 36, // drifting embers in the procedural backdrop
+  },
+
   // Parallax: background layers scroll slower than the world for a sense of depth.
   parallax: {
     clouds: 0.4, // clouds move at 40% of the camera's horizontal speed
@@ -165,6 +191,15 @@ export const CONFIG = {
     exitFlag: '#27ae60',
     exitFlagReached: '#f1c40f',
     menuBg: '#1b2330',
+    // The pursuing chaser: a dark, smoky body with a sickly glow and burning eyes.
+    chaser: '#2a0d33',
+    chaserBody: '#43124f',
+    chaserGlow: 'rgba(168, 50, 214, 0.45)',
+    chaserEye: '#ff3b6b',
+    // Game-over backdrop tints.
+    gameOverTop: '#2a0d12',
+    gameOverBottom: '#0d0406',
+    ember: '#ff7a2a',
     lava: '#e2521a',
     lavaTop: '#ffb24a',
     lavaGlow: 'rgba(255, 120, 40, 0.45)',

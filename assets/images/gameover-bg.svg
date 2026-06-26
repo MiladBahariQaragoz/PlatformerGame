@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Game-over screen backdrop. Replace with your own 800x450 image if you like; if it fails to
+     load the game draws a procedural ember backdrop instead (see GameOverScene.drawBackground). -->
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="450" viewBox="0 0 800 450">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2a0d12"/>
+      <stop offset="0.6" stop-color="#1a0710"/>
+      <stop offset="1" stop-color="#0d0406"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="1" r="0.9">
+      <stop offset="0" stop-color="#ff7a2a" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#ff7a2a" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="800" height="450" fill="url(#sky)"/>
+  <rect x="0" y="250" width="800" height="200" fill="url(#glow)"/>
+  <!-- jagged mountain silhouettes -->
+  <path d="M0 360 L120 280 L210 350 L320 270 L430 360 L520 300 L640 370 L740 300 L800 350 L800 450 L0 450 Z" fill="#160512"/>
+  <!-- molten band -->
+  <rect x="0" y="420" width="800" height="30" fill="#e2521a"/>
+  <rect x="0" y="420" width="800" height="6" fill="#ffb24a"/>
+</svg>
