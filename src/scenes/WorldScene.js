@@ -4,7 +4,8 @@
 import { CONFIG } from '../config.js';
 import { level1 } from '../levels/level1.js';
 import { Player } from '../entities/Player.js';
-import { moveAndCollide } from '../engine/physics.js';
+import { Collectible } from '../entities/Collectible.js';
+import { moveAndCollide, aabbOverlap } from '../engine/physics.js';
 import { Camera } from '../engine/camera.js';
 
 export class WorldScene {
@@ -13,6 +14,10 @@ export class WorldScene {
     this.player = new Player(level.spawn.x, level.spawn.y);
     this.camera = new Camera(CONFIG.width, level.width);
     this.elapsed = 0; // seconds since the scene started (drives the hint fade)
+
+    // Build one coin per level entry; track how many the player has collected.
+    this.collectibles = (level.collectibles ?? []).map((c) => new Collectible(c.x, c.y));
+    this.score = 0;
   }
 
   update(dt, input) {
@@ -35,6 +40,16 @@ export class WorldScene {
 
     // 5. Camera tracks the player across the wider level.
     this.camera.follow(p);
+
+    // 6. Coins: animate, then collect any the player is overlapping this step.
+    for (const c of this.collectibles) {
+      if (c.collected) continue;
+      c.update(dt);
+      if (aabbOverlap(p, c)) {
+        c.collected = true;
+        this.score += 1;
+      }
+    }
   }
 
   render(ctx) {
@@ -69,13 +84,28 @@ export class WorldScene {
     // Foreground scenery: bushes sit on the ground.
     if (deco) for (const b of deco.bushes) this.drawBush(ctx, b);
 
+    // Coins, drawn on the world (skip ones already collected).
+    for (const c of this.collectibles) if (!c.collected) c.render(ctx);
+
     // The character, drawn on top of the world.
     this.player.render(ctx);
 
     ctx.restore();
 
-    // HUD (screen space): control hints that fade out after the first few seconds.
+    // HUD (screen space): coin score, then control hints that fade out after a few seconds.
+    this.drawScore(ctx);
     this.drawHints(ctx);
+  }
+
+  // Coin counter, pinned to the top-right (clear of the top-left control hints).
+  drawScore(ctx) {
+    if (this.collectibles.length === 0) return;
+    ctx.save();
+    ctx.fillStyle = CONFIG.colors.text;
+    ctx.font = 'bold 16px system-ui, sans-serif';
+    ctx.textAlign = 'right';
+    ctx.fillText(`Coins  ${this.score} / ${this.collectibles.length}`, CONFIG.width - 16, 28);
+    ctx.restore();
   }
 
   // Control hints, fully visible for ~5s then fading out over ~3s.

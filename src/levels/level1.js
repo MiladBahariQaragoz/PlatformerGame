@@ -32,6 +32,21 @@ export const level1 = {
     { x: 1370, y: 200, w: 150, h: 16 }, // final lookout (wider)
   ],
 
+  // Collectible coins, defined as center points {x, y}. Placed along the ground and
+  // hovering above each platform so they reward the natural climbing path.
+  collectibles: [
+    { x: 110, y: 360 }, // ground, near the start
+    { x: 230, y: 360 },
+    { x: 205, y: 308 }, // above the first step
+    { x: 375, y: 256 },
+    { x: 545, y: 204 }, // above the rest platform
+    { x: 715, y: 162 }, // the summit
+    { x: 895, y: 214 }, // descending into the second half
+    { x: 1065, y: 266 },
+    { x: 1245, y: 218 },
+    { x: 1445, y: 174 }, // final lookout
+  ],
+
   // Non-interactive scenery — drawn behind the platforms and player. Pure decoration,
   // kept as data so a level's look is part of its description.
   decorations: {

@@ -27,7 +27,7 @@
 - [x] Module Quiz 2 (+10 XP)
 
 # Challenge and Reward
-- [ ] Add Collectibles (+5 XP)
+- [x] Add Collectibles (+5 XP)
 - [ ] Rewards and Motivation (+10 XP)
 - [ ] Add an Enemy (+5 XP)
 - [ ] Enemies and Obstacles (+10 XP)

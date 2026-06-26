@@ -24,6 +24,13 @@ export const CONFIG = {
     jumpSpeed: 620, // initial upward velocity on jump (px/s)
   },
 
+  // Collectibles (coins). Positions are defined per-level as center points.
+  coin: {
+    radius: 9,
+    bobAmount: 4, // px of vertical bob, for life
+    bobSpeed: 3, // bob rate (radians/s)
+  },
+
   // Palette
   colors: {
     sky: '#5c94fc',
@@ -39,6 +46,9 @@ export const CONFIG = {
     playerEye: '#ffffff',
     cloud: '#ffffff',
     bush: '#2f8f3e',
+    coin: '#ffd23f',
+    coinShine: '#fff1a8',
+    coinEdge: '#caa000',
     text: '#ffffff',
   },
 };
