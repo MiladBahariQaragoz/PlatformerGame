@@ -1,8 +1,9 @@
-// The main game world. Module 1 grows this scene task by task: it starts as a sky and
-// a patch of ground, then gains a path, a character, decorations, and mood/atmosphere.
+// The main game world. By default it runs the procedural "endless lava run": a generator
+// extends platforms rightward forever over a lava floor, while a static, fully-authored level
+// (e.g. level1) can still be passed in. Endless behaviour is gated on `level.endless`.
 
 import { CONFIG } from '../config.js';
-import { level1 } from '../levels/level1.js';
+import { createEndlessLevel } from '../levels/endless.js';
 import { Player } from '../entities/Player.js';
 import { Collectible } from '../entities/Collectible.js';
 import { Enemy } from '../entities/Enemy.js';
@@ -15,12 +16,20 @@ import { audio } from '../engine/audio.js';
 import { GameOverScene } from './GameOverScene.js';
 
 export class WorldScene {
-  constructor(level = level1) {
+  constructor(level = createEndlessLevel()) {
     this.level = level;
+    this.endless = !!level.endless;
     this.player = new Player(level.spawn.x, level.spawn.y);
-    this.camera = new Camera(CONFIG.width, level.width);
+    // Endless mode is unbounded to the right (Infinity), so the camera only clamps at the left.
+    this.camera = new Camera(CONFIG.width, this.endless ? Infinity : level.width);
     this.particles = new Particles(); // juice: bursts on coins, stomps, and hits
     this.elapsed = 0; // seconds since the scene started (drives the hint fade)
+
+    // Endless run bookkeeping: the lava death line, distance score, and the last safe spot
+    // to respawn on (set whenever the player lands).
+    this.lavaY = level.lavaY ?? Infinity;
+    this.distance = 0;
+    this.lastSafe = { x: level.spawn.x, y: level.spawn.y };
 
     // Build one coin per level entry; track how many the player has collected.
     this.collectibles = (level.collectibles ?? []).map((c) => new Collectible(c.x, c.y));
@@ -59,7 +68,7 @@ export class WorldScene {
       this.endTimer -= dt;
       if (this.endTimer <= 0 && this.game) {
         const result = this.levelComplete ? 'win' : 'lose';
-        this.game.setScene(new GameOverScene(result, this.score, this.collectibles.length));
+        this.game.setScene(new GameOverScene(result, this.endStats()));
       }
       return;
     }
@@ -84,15 +93,28 @@ export class WorldScene {
     const wasOnGround = p.onGround;
     const fallSpeed = p.vy;
     moveAndCollide(p, this.level.platforms, dt);
-    if (!wasOnGround && p.onGround) p.onLand(Math.min(1, fallSpeed / 700));
+    if (!wasOnGround && p.onGround) {
+      p.onLand(Math.min(1, fallSpeed / 700));
+      // Remember where we touched down, so a lava/spike death can respawn us on solid ground.
+      if (this.endless) this.lastSafe = { x: p.x, y: p.y };
+    }
 
-    // 4. Keep the player inside the level's horizontal bounds.
-    const maxX = this.level.width - p.w;
+    // 4. Keep the player inside the world's horizontal bounds (left edge only when endless).
     if (p.x < 0) p.x = 0;
-    if (p.x > maxX) p.x = maxX;
+    if (!this.endless) {
+      const maxX = this.level.width - p.w;
+      if (p.x > maxX) p.x = maxX;
+    }
 
-    // 5. Camera tracks the player across the wider level.
+    // 5. Camera tracks the player across the world.
     this.camera.follow(p);
+
+    // 5b. Endless: extend the world ahead, trim it behind, and track distance.
+    if (this.endless) {
+      this.generateAhead();
+      this.cullBehind();
+      this.distance = Math.max(this.distance, Math.floor(p.x / 50));
+    }
 
     // 6. Coins: animate, then collect any the player is overlapping this step.
     for (const c of this.collectibles) {
@@ -131,13 +153,49 @@ export class WorldScene {
       }
     }
 
-    // 9. Exit: reaching the goal flag completes the level.
+    // 9. Lava: falling to the lava surface costs a life (endless mode).
+    if (this.endless && p.y + p.h > this.lavaY) this.hitPlayer();
+
+    // 10. Exit: reaching the goal flag completes the level (static levels only).
     if (this.exit && aabbOverlap(p, this.exit)) {
       this.exit.reached = true;
       this.levelComplete = true;
       this.endTimer = CONFIG.flow.endDelay;
       audio.win();
     }
+  }
+
+  // Extend the world: generate platforms (and their items) until they reach past the right
+  // edge of the view by the configured buffer.
+  generateAhead() {
+    const gen = this.level.generator;
+    const limit = this.camera.x + CONFIG.width + CONFIG.endless.aheadBuffer;
+    while (gen.last.x + gen.last.w < limit) {
+      const chunk = gen.next();
+      this.level.platforms.push(chunk.platform);
+      for (const c of chunk.coins) this.collectibles.push(new Collectible(c.x, c.y));
+      for (const e of chunk.enemies) this.enemies.push(new Enemy(e.x, e.y, e));
+      for (const h of chunk.hazards) this.hazards.push(new Hazard(h.x, h.y, h.w, h.h));
+    }
+  }
+
+  // Trim the world: drop platforms and items that have scrolled well off the left edge, so
+  // the arrays don't grow without bound.
+  cullBehind() {
+    const minX = this.camera.x - CONFIG.endless.cullBuffer;
+    this.level.platforms = this.level.platforms.filter((p) => p.x + p.w >= minX);
+    this.collectibles = this.collectibles.filter((c) => c.x + c.w >= minX);
+    this.enemies = this.enemies.filter((e) => e.x + e.w >= minX);
+    this.hazards = this.hazards.filter((h) => h.x + h.w >= minX);
+  }
+
+  // Stats handed to the end screen: coins, the (finite) coin total, and endless distance.
+  endStats() {
+    return {
+      coins: this.score,
+      total: this.endless ? null : this.collectibles.length,
+      distance: this.endless ? this.distance : null,
+    };
   }
 
   // Spend a life. With lives left, send the player back to spawn; at zero, end the run.
@@ -158,9 +216,10 @@ export class WorldScene {
     }
   }
 
-  // Send the player back to the level's spawn point with zeroed motion.
+  // Send the player back to solid ground with zeroed motion: the last safe platform in an
+  // endless run, or the level's spawn point otherwise.
   respawnPlayer() {
-    const s = this.level.spawn;
+    const s = this.endless ? this.lastSafe : this.level.spawn;
     const p = this.player;
     p.x = s.x;
     p.y = s.y;
@@ -184,7 +243,10 @@ export class WorldScene {
     this.drawSun(ctx, width - 120, 90, 34);
 
     // Background scenery: clouds drift behind everything, scrolling slower (parallax depth).
-    if (deco) {
+    // Endless mode tiles them procedurally so the sky never empties.
+    if (this.endless) {
+      this.drawEndlessClouds(ctx);
+    } else if (deco) {
       ctx.save();
       ctx.translate(-Math.round(this.camera.x * CONFIG.parallax.clouds), 0);
       for (const c of deco.clouds) this.drawCloud(ctx, c);
@@ -226,11 +288,46 @@ export class WorldScene {
 
     ctx.restore();
 
-    // HUD (screen space): coin score + lives, then the end fade or the fading control hints.
+    // The lava floor: a fixed band at the bottom of the screen (endless mode).
+    if (this.endless) this.drawLava(ctx);
+
+    // HUD (screen space): coin score + lives (+ distance), then end fade or control hints.
     this.drawScore(ctx);
     this.drawLives(ctx);
+    this.drawDistance(ctx);
     if (this.gameOver || this.levelComplete) this.drawEndFade(ctx);
     else this.drawHints(ctx);
+  }
+
+  // The lava floor: a glowing band pinned to the bottom of the screen, with a bright surface
+  // line that ripples gently for life.
+  drawLava(ctx) {
+    const { width, height, colors, lava } = CONFIG;
+    const y = height - lava.height;
+    ctx.fillStyle = colors.lavaGlow;
+    ctx.fillRect(0, y - 10, width, 10);
+    ctx.fillStyle = colors.lava;
+    ctx.fillRect(0, y, width, lava.height);
+    ctx.fillStyle = colors.lavaTop;
+    for (let x = 0; x < width; x += 16) {
+      const wob = 2 + Math.sin(this.elapsed * 4 + x * 0.05) * 2;
+      ctx.fillRect(x, y - wob + 2, 16, 5);
+    }
+  }
+
+  // Procedurally tiled parallax clouds for the endless sky (deterministic per tile, so they
+  // don't flicker as they scroll).
+  drawEndlessClouds(ctx) {
+    const { width } = CONFIG;
+    const tile = 260;
+    const scroll = this.camera.x * CONFIG.parallax.clouds;
+    const first = Math.floor(scroll / tile) - 1;
+    const last = Math.ceil((scroll + width) / tile) + 1;
+    for (let i = first; i <= last; i++) {
+      const f = Math.abs(Math.sin(i * 12.9898) * 43758.5453) % 1; // stable pseudo-random
+      const x = i * tile + 40 + f * (tile - 80) - scroll;
+      this.drawCloud(ctx, { x, y: 46 + f * 70, scale: 0.7 + f * 0.7 });
+    }
   }
 
   // Darken the world as the end timer runs down, easing into the end screen.
@@ -253,14 +350,31 @@ export class WorldScene {
     ctx.restore();
   }
 
-  // Coin counter, pinned to the top-right (clear of the top-left control hints).
+  // Coin counter, pinned to the top-right (clear of the top-left control hints). Endless mode
+  // shows just the running total; static levels show progress toward the level's coins.
   drawScore(ctx) {
-    if (this.collectibles.length === 0) return;
+    const label = this.endless
+      ? `Coins  ${this.score}`
+      : this.collectibles.length === 0
+        ? null
+        : `Coins  ${this.score} / ${this.collectibles.length}`;
+    if (!label) return;
     ctx.save();
     ctx.fillStyle = CONFIG.colors.text;
     ctx.font = 'bold 16px system-ui, sans-serif';
     ctx.textAlign = 'right';
-    ctx.fillText(`Coins  ${this.score} / ${this.collectibles.length}`, CONFIG.width - 16, 28);
+    ctx.fillText(label, CONFIG.width - 16, 28);
+    ctx.restore();
+  }
+
+  // Distance travelled (endless mode), the run's main score, under the lives.
+  drawDistance(ctx) {
+    if (!this.endless) return;
+    ctx.save();
+    ctx.fillStyle = CONFIG.colors.text;
+    ctx.font = 'bold 16px system-ui, sans-serif';
+    ctx.textAlign = 'right';
+    ctx.fillText(`${this.distance} m`, CONFIG.width - 16, 72);
     ctx.restore();
   }
 

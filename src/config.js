@@ -4,8 +4,8 @@
 export const CONFIG = {
   // Game identity (shown on menus).
   game: {
-    title: 'GREEN HILLS',
-    subtitle: 'a tiny platformer',
+    title: 'LAVA RUN',
+    subtitle: 'endless jumps over the lava — how far can you go?',
   },
 
   // Canvas / viewport (logical pixels)

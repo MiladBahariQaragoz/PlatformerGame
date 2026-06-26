@@ -9,10 +9,9 @@ import { StartScene } from './StartScene.js';
 const RETRY_KEYS = ['Space', 'Enter', 'KeyR'];
 
 export class GameOverScene {
-  constructor(result = 'lose', score = 0, total = 0) {
+  constructor(result = 'lose', stats = {}) {
     this.result = result; // 'win' | 'lose'
-    this.score = score;
-    this.total = total;
+    this.stats = stats; // { coins, total, distance } — total/distance may be null
     this.elapsed = 0;
   }
 
@@ -44,10 +43,13 @@ export class GameOverScene {
     ctx.font = 'bold 56px system-ui, sans-serif';
     ctx.fillText(won ? 'LEVEL COMPLETE' : 'GAME OVER', width / 2, height / 2 - 24);
 
-    // Coin tally.
+    // Stats: distance is the headline result in an endless run; coins always shown.
+    const { coins = 0, total = null, distance = null } = this.stats;
     ctx.fillStyle = colors.text;
     ctx.font = '20px system-ui, sans-serif';
-    ctx.fillText(`Coins  ${this.score} / ${this.total}`, width / 2, height / 2 + 14);
+    const coinText = total != null ? `Coins  ${coins} / ${total}` : `Coins  ${coins}`;
+    const summary = distance != null ? `Distance  ${distance} m     ${coinText}` : coinText;
+    ctx.fillText(summary, width / 2, height / 2 + 14);
 
     // Blinking retry prompt.
     ctx.save();
