@@ -53,6 +53,7 @@ export const CONFIG = {
     height: 28,
     speed: 70, // patrol walk speed (px/s)
     stompBounce: 0.6, // fraction of jumpSpeed the player rebounds after a stomp
+    killTimeBonus: 1.5, // seconds added to the race clock for stomping an enemy
   },
 
   // Static hazards (spike strips). Boxes are defined per-level.

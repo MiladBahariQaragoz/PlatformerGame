@@ -161,6 +161,11 @@ export class WorldScene {
         this.particles.burst(e.x + e.w / 2, e.y, CONFIG.colors.enemy);
         this.camera.shake(CONFIG.shake.stomp, CONFIG.shake.duration);
         audio.stomp();
+        // Stomping buys a little time back on the race clock (capped like coins do).
+        if (this.endless) {
+          this.timeLeft = Math.min(CONFIG.time.max, this.timeLeft + CONFIG.enemy.killTimeBonus);
+          this.timeGainFlash = 0.4;
+        }
       } else {
         this.hitPlayer();
       }
