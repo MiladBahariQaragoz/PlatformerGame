@@ -11,6 +11,7 @@ import { Exit } from '../entities/Exit.js';
 import { moveAndCollide, aabbOverlap } from '../engine/physics.js';
 import { Camera } from '../engine/camera.js';
 import { Particles } from '../engine/particles.js';
+import { audio } from '../engine/audio.js';
 
 export class WorldScene {
   constructor(level = level1) {
@@ -48,11 +49,17 @@ export class WorldScene {
     const p = this.player;
     this.elapsed += dt;
 
+    // Mute toggle (M).
+    if (input.wasPressed('KeyM')) audio.toggle();
+
     // 1. Entity decides its movement intent from input.
     p.update(dt, input);
 
     // 2. Apply a queued jump only when standing on solid ground.
-    if (p.jumpQueued && p.onGround) p.vy = -CONFIG.player.jumpSpeed;
+    if (p.jumpQueued && p.onGround) {
+      p.vy = -CONFIG.player.jumpSpeed;
+      audio.jump();
+    }
 
     // 3. Physics step: gravity + collision resolution against the platforms.
     moveAndCollide(p, this.level.platforms, dt);
@@ -73,6 +80,7 @@ export class WorldScene {
         c.collected = true;
         this.score += 1;
         this.particles.burst(c.x + c.w / 2, c.y + c.h / 2, CONFIG.colors.coin);
+        audio.coin();
       }
     }
 
@@ -87,6 +95,7 @@ export class WorldScene {
         p.vy = -CONFIG.player.jumpSpeed * CONFIG.enemy.stompBounce;
         this.particles.burst(e.x + e.w / 2, e.y, CONFIG.colors.enemy);
         this.camera.shake(CONFIG.shake.stomp, CONFIG.shake.duration);
+        audio.stomp();
       } else {
         this.hitPlayer();
       }
@@ -104,6 +113,7 @@ export class WorldScene {
     if (this.exit && aabbOverlap(p, this.exit)) {
       this.exit.reached = true;
       this.levelComplete = true;
+      audio.win();
     }
   }
 
@@ -117,7 +127,9 @@ export class WorldScene {
     if (this.lives <= 0) {
       this.lives = 0;
       this.gameOver = true;
+      audio.gameOver();
     } else {
+      audio.hit();
       this.respawnPlayer();
     }
   }
@@ -261,6 +273,7 @@ export class WorldScene {
     ctx.textAlign = 'left';
     ctx.fillText('Move:  ← →  or  A D', 16, 28);
     ctx.fillText('Jump:  Space  /  ↑  /  W', 16, 48);
+    ctx.fillText('Mute:  M', 16, 68);
     ctx.restore();
   }
 

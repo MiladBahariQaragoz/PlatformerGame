@@ -63,6 +63,11 @@ export const CONFIG = {
     duration: 0.25, // seconds
   },
 
+  // Audio: synthesized sound effects. `volume` is the master peak gain (0..1).
+  audio: {
+    volume: 0.14,
+  },
+
   // Palette
   colors: {
     sky: '#5c94fc',
