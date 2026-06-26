@@ -170,3 +170,39 @@ a *game* is how the layers fit together:
 **How it maps to our code:** the structure is the lesson — `src/engine/` vs `src/entities/` vs
 `src/scenes/`, all driven by `src/config.js` and `src/levels/`. No single file "is" the game;
 the game is how they compose.
+
+---
+
+## Polish Recap (+10 XP)
+
+What Module 4 turned the working game into — a *finished* one:
+
+| We built | Where it lives |
+| --- | --- |
+| Particle bursts | `engine/particles.js`, `WorldScene` events |
+| Screen shake | `engine/camera.js` (`shake`/`update`) |
+| Synthesized sound + mute | `engine/audio.js`, `WorldScene` events |
+| Title screen | `scenes/StartScene.js`, `main.js` |
+| End screen (win/lose) + retry | `scenes/GameOverScene.js`, `WorldScene` end flow |
+| Squash & stretch + parallax | `entities/Player.js`, `WorldScene.render` |
+
+**Principles we locked in:**
+
+- **Feedback is a layer.** Juice and sound are pure communication — added on top, changing no
+  rules. They live in their own game-agnostic systems and never leak into game logic.
+- **Proportional, brief, multi-channel.** Reactions match event weight, punctuate rather than
+  linger, and speak through sight *and* sound at once.
+- **A game is a flow of scenes.** Title → play → end → (again | title), switched through the
+  engine's `setScene` seam designed in from the start.
+- **Fresh scene = perfect reset.** All run state lives in the scene instance, so retry is just
+  `new WorldScene()` — no reset code to maintain.
+- **Symmetric ends.** Win and lose are one screen with a flag, two outcomes of one machine.
+- **Still additive, still data-driven, still tunable.** Every touch was a new system or a new
+  config number; the core gameplay code was barely touched.
+
+**State of the game:** a complete little platformer — a title screen that sets the tone, a
+scrolling level to explore, coins to gather, enemies to stomp and spikes to dodge across three
+lives, a flag to win, and an end screen that loops you straight back in. It looks, sounds, and
+*feels* like a game, not a demo. From here, the natural next steps are more content (new levels
+— just data), new entity types (moving platforms, power-ups), or deeper systems (checkpoints,
+a score-based combo) — all of which the engine/entity/scene structure is ready to absorb.

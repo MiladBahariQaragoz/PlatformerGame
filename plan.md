@@ -51,5 +51,5 @@
 - [x] Game Over and Retry (+10 XP)
 - [x] Final Creative Touches (+5 XP)
 - [x] The Complete Picture (+10 XP)
-- [ ] Polish Recap (+10 XP)
+- [x] Polish Recap (+10 XP)
 - [ ] Module Quiz 4 (+10 XP)
