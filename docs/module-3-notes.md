@@ -148,3 +148,39 @@ Until now the level had no *end* — you could run right forever. A goal turns a
 data (`level.exit`). `WorldScene.update` step 9 flips `levelComplete` on overlap and the
 `update` guard then freezes the world; `drawLevelComplete` shows the win overlay. It mirrors
 the game-over path exactly — two ends of the same machine.
+
+---
+
+## Challenge Recap (+10 XP)
+
+What Module 3 turned the movement playground into — a game with reasons to play:
+
+| We built | Where it lives |
+| --- | --- |
+| Collectible coins + score | `entities/Collectible.js`, `WorldScene.drawScore` |
+| Patrolling enemies + stomp | `entities/Enemy.js`, `WorldScene` (above-vs-side) |
+| Spike hazards | `entities/Hazard.js` |
+| Lives + game over | `WorldScene` (`hitPlayer`, `drawLives`, `drawGameOver`) |
+| Level exit + win screen | `entities/Exit.js`, `WorldScene.drawLevelComplete` |
+| All of it as level data | `levels/level1.js` (`collectibles`, `enemies`, `hazards`, `exit`) |
+
+**Principles we locked in:**
+
+- **One primitive, many mechanics.** Collect, hurt, and win are all *the same AABB overlap*
+  (`aabbOverlap`). New gameplay came from new *meaning* on a shared test, not new physics.
+- **Reward and stake are one decision.** Coins pull the player toward risk; lives make that
+  risk cost something. The see-want-get loop and the risk/reward weigh-up are the engine of
+  engagement.
+- **Fair-but-hard.** Threats are telegraphed, reachable by construction, governed by
+  consistent rules, and backed by a short retry loop. Difficulty is mostly a *data* property.
+- **One damage path.** Every way to get hurt funnels through `hitPlayer()`, so consequence is
+  defined once and the next hazard plugs straight in.
+- **Symmetric ends.** Win and lose share one structure (freeze + overlay + message) — two
+  outcomes of the same small machine.
+- **Still data-driven, still additive.** Every new mechanic arrived as a new entity + level
+  data; the engine (`physics`, `camera`, `game`) never had to change.
+
+**State of the game:** a real platformer loop — explore a scrolling level, gather coins,
+dodge or stomp enemies, avoid spikes, manage three lives, and reach the flag to win (or run
+out of lives and lose). Module 4 adds the polish: juice, sound, menus, and an in-game retry
+that makes both endings replayable.

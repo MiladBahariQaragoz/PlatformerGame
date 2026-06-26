@@ -9,8 +9,8 @@ row with the commit that implemented it, so the game's history is auditable end 
 
 | Metric | Value |
 | --- | --- |
-| Tasks completed | 34 / 48 |
-| XP earned | 265 / 360 |
+| Tasks completed | 35 / 48 |
+| XP earned | 275 / 360 |
 
 ## Module 1 — Your Game World
 
@@ -59,8 +59,8 @@ row with the commit that implemented it, so the game's history is auditable end 
 | Add a Lives System | 5 | ☑ | `cf0a15f` |
 | Stakes and Consequence | 10 | ☑ | `5ba7a05` |
 | Add a Level Exit | 5 | ☑ | `2b6e99f` |
-| Goals and Completion | 10 | ☑ | `PENDING` |
-| Challenge Recap | 10 | ☐ | — |
+| Goals and Completion | 10 | ☑ | `17311d6` |
+| Challenge Recap | 10 | ☑ | `PENDING` |
 | Module Quiz 3 | 10 | ☐ | — |
 
 ## Module 4 — Polish and Beyond
