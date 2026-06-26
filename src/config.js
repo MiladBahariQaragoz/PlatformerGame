@@ -109,15 +109,15 @@ export const CONFIG = {
     maxDrop: 150, // biggest downward step (px)
     minGap: 46, // smallest horizontal gap between platforms (px)
     maxGap: 230, // hard cap on the gap (px)
-    gapSafety: 0.8, // fraction of the reachable gap we actually use (fairness margin)
+    gapSafety: 0.9, // fraction of the reachable gap we actually use (fairness margin)
     thickness: 18, // platform height (px)
     shortWidth: [60, 120], // px range for a "short" platform
     longWidth: [150, 270], // px range for a "long" platform
-    longChance: 0.4, // probability a platform is long rather than short
+    longChance: 0.3, // probability a platform is long rather than short
     aheadBuffer: 420, // generate platforms until this far past the right viewport edge
     cullBuffer: 240, // drop platforms/items this far behind the left viewport edge
     safeStart: 3, // first N platforms carry no enemies/hazards
-    coinPeriod: 10, // exactly one coin per this many platforms, at a random platform in each
+    coinPeriod: 4, // exactly one coin per this many platforms, at a random platform in each
     enemyChance: 0.28, // probability a wide platform gets an enemy
     hazardChance: 0.26, // probability a wide platform gets a spike strip instead
   },
