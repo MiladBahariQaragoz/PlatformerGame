@@ -44,6 +44,11 @@ export const CONFIG = {
     spikeWidth: 16, // target px width of one spike; strips fit a whole number across
   },
 
+  // Lives: how many hits the player can take before it's game over.
+  lives: {
+    start: 3,
+  },
+
   // Palette
   colors: {
     sky: '#5c94fc',
@@ -67,6 +72,8 @@ export const CONFIG = {
     enemyDefeated: '#5e3370',
     hazard: '#b03a2e',
     hazardEdge: '#e05a47',
+    heart: '#e23b3b',
+    overlay: 'rgba(0, 0, 0, 0.55)',
     text: '#ffffff',
   },
 };

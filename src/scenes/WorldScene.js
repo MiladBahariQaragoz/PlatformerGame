@@ -26,9 +26,15 @@ export class WorldScene {
 
     // Build static hazards (spike strips) from level data.
     this.hazards = (level.hazards ?? []).map((h) => new Hazard(h.x, h.y, h.w, h.h));
+
+    // Lives: spend one per hit; at zero the run ends.
+    this.lives = CONFIG.lives.start;
+    this.gameOver = false;
   }
 
   update(dt, input) {
+    if (this.gameOver) return; // freeze the world once the run has ended
+
     const p = this.player;
     this.elapsed += dt;
 
@@ -69,16 +75,28 @@ export class WorldScene {
         e.defeated = true;
         p.vy = -CONFIG.player.jumpSpeed * CONFIG.enemy.stompBounce;
       } else {
-        this.respawnPlayer();
+        this.hitPlayer();
       }
     }
 
-    // 8. Hazards: touching any spike strip sends the player back to spawn.
+    // 8. Hazards: touching any spike strip costs the player a life.
     for (const h of this.hazards) {
       if (aabbOverlap(p, h)) {
-        this.respawnPlayer();
+        this.hitPlayer();
         break;
       }
+    }
+  }
+
+  // Spend a life. With lives left, send the player back to spawn; at zero, end the run.
+  hitPlayer() {
+    if (this.gameOver) return;
+    this.lives -= 1;
+    if (this.lives <= 0) {
+      this.lives = 0;
+      this.gameOver = true;
+    } else {
+      this.respawnPlayer();
     }
   }
 
@@ -137,9 +155,36 @@ export class WorldScene {
 
     ctx.restore();
 
-    // HUD (screen space): coin score, then control hints that fade out after a few seconds.
+    // HUD (screen space): coin score + lives, then control hints (fading) or game over.
     this.drawScore(ctx);
-    this.drawHints(ctx);
+    this.drawLives(ctx);
+    if (this.gameOver) this.drawGameOver(ctx);
+    else this.drawHints(ctx);
+  }
+
+  // Remaining lives as a row of hearts, top-right under the coin counter.
+  drawLives(ctx) {
+    ctx.save();
+    ctx.fillStyle = CONFIG.colors.heart;
+    ctx.font = '16px system-ui, sans-serif';
+    ctx.textAlign = 'right';
+    ctx.fillText('♥'.repeat(this.lives), CONFIG.width - 16, 50);
+    ctx.restore();
+  }
+
+  // Dim the world and announce the end of the run (in-game retry comes in Module 4).
+  drawGameOver(ctx) {
+    const { width, height, colors } = CONFIG;
+    ctx.save();
+    ctx.fillStyle = colors.overlay;
+    ctx.fillRect(0, 0, width, height);
+    ctx.fillStyle = colors.text;
+    ctx.textAlign = 'center';
+    ctx.font = 'bold 40px system-ui, sans-serif';
+    ctx.fillText('GAME OVER', width / 2, height / 2 - 6);
+    ctx.font = '16px system-ui, sans-serif';
+    ctx.fillText('Refresh the page to try again', width / 2, height / 2 + 28);
+    ctx.restore();
   }
 
   // Coin counter, pinned to the top-right (clear of the top-left control hints).
