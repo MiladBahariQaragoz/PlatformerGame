@@ -39,6 +39,11 @@ export const CONFIG = {
     stompBounce: 0.6, // fraction of jumpSpeed the player rebounds after a stomp
   },
 
+  // Static hazards (spike strips). Boxes are defined per-level.
+  hazard: {
+    spikeWidth: 16, // target px width of one spike; strips fit a whole number across
+  },
+
   // Palette
   colors: {
     sky: '#5c94fc',
@@ -60,6 +65,8 @@ export const CONFIG = {
     enemy: '#8e44ad',
     enemyEye: '#ffffff',
     enemyDefeated: '#5e3370',
+    hazard: '#b03a2e',
+    hazardEdge: '#e05a47',
     text: '#ffffff',
   },
 };

@@ -6,6 +6,7 @@ import { level1 } from '../levels/level1.js';
 import { Player } from '../entities/Player.js';
 import { Collectible } from '../entities/Collectible.js';
 import { Enemy } from '../entities/Enemy.js';
+import { Hazard } from '../entities/Hazard.js';
 import { moveAndCollide, aabbOverlap } from '../engine/physics.js';
 import { Camera } from '../engine/camera.js';
 
@@ -22,6 +23,9 @@ export class WorldScene {
 
     // Build patrolling enemies from level data.
     this.enemies = (level.enemies ?? []).map((e) => new Enemy(e.x, e.y, e));
+
+    // Build static hazards (spike strips) from level data.
+    this.hazards = (level.hazards ?? []).map((h) => new Hazard(h.x, h.y, h.w, h.h));
   }
 
   update(dt, input) {
@@ -66,6 +70,14 @@ export class WorldScene {
         p.vy = -CONFIG.player.jumpSpeed * CONFIG.enemy.stompBounce;
       } else {
         this.respawnPlayer();
+      }
+    }
+
+    // 8. Hazards: touching any spike strip sends the player back to spawn.
+    for (const h of this.hazards) {
+      if (aabbOverlap(p, h)) {
+        this.respawnPlayer();
+        break;
       }
     }
   }
@@ -116,7 +128,8 @@ export class WorldScene {
     // Coins, drawn on the world (skip ones already collected).
     for (const c of this.collectibles) if (!c.collected) c.render(ctx);
 
-    // Enemies, drawn on the world (defeated ones render as a flattened husk).
+    // Hazards (spike strips) and enemies, drawn on the world.
+    for (const h of this.hazards) h.render(ctx);
     for (const e of this.enemies) e.render(ctx);
 
     // The character, drawn on top of the world.

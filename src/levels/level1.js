@@ -56,6 +56,13 @@ export const level1 = {
     { x: 1040, y: 358, dir: -1, minX: 950, maxX: 1180 },
   ],
 
+  // Static hazards (spike strips): {x, y, w, h}, resting on the ground (groundY 386, so
+  // 20px-tall strips start at y 366). Placed in open stretches so they must be jumped.
+  hazards: [
+    { x: 720, y: 366, w: 80, h: 20 },
+    { x: 1290, y: 366, w: 80, h: 20 },
+  ],
+
   // Non-interactive scenery — drawn behind the platforms and player. Pure decoration,
   // kept as data so a level's look is part of its description.
   decorations: {
