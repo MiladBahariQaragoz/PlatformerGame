@@ -11,10 +11,13 @@ export const level1 = {
   spawn: { x: 48, y: 330 },
 
   // The base ground spans the whole level; floating platforms form a climbing path.
+  // Layout follows a readable rhythm: steady ~120px horizontal gaps and ~52px rises so
+  // each jump is reachable, with a wider rest platform before the final step.
   platforms: [
     { x: 0, y: 386, w: 800, h: 64 }, // ground
-    { x: 170, y: 320, w: 120, h: 16 },
-    { x: 350, y: 268, w: 120, h: 16 },
-    { x: 540, y: 220, w: 130, h: 16 },
+    { x: 150, y: 334, w: 110, h: 16 },
+    { x: 320, y: 282, w: 110, h: 16 },
+    { x: 470, y: 230, w: 150, h: 16 }, // rest platform (wider)
+    { x: 660, y: 188, w: 110, h: 16 }, // summit
   ],
 };

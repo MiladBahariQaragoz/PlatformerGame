@@ -21,3 +21,21 @@ glance. Four ingredients:
 **How it maps to our code:** the world lives in `scenes/WorldScene.js` (the space + how
 it's drawn) and `levels/level1.js` (the structure as data). Keeping structure in data is
 what lets us add worlds without rewriting the scene.
+
+---
+
+## Platforms and Level Layout (+10 XP)
+
+Good layout is about **rhythm and reachability**, not random placement:
+
+- **Reachable jumps** — gaps must fit the character's jump arc. We standardized ~120px
+  horizontal gaps and ~52px rises so every platform is clearable (jump tuning is dialed in
+  during Module 2, but the layout is designed to be fair from the start).
+- **Rhythm** — consistent spacing teaches the player a timing they can rely on; occasional
+  variation (a wider "rest" platform) breaks monotony without breaking the pattern.
+- **Readable path** — the eye should trace ground → steps → summit. Ours climbs left to
+  right toward a summit platform, giving the level a clear goal-shape.
+- **Pacing** — start easy (ground), build up, then a small reward at the top.
+
+**Applied to `level1.js`:** retuned the platforms into an even climbing staircase with a
+wider rest platform before the final summit step.
