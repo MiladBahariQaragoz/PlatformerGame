@@ -44,7 +44,7 @@ row with the commit that implemented it, so the game's history is auditable end 
 | Add Control Hints | 5 | ☑ | `2418ebe` |
 | Game Feel and Polish | 10 | ☑ | `d8a688c` |
 | Movement Recap | 10 | ☑ | `3277d59` |
-| Module Quiz 2 | 10 | ☑ | _pending_ |
+| Module Quiz 2 | 10 | ☑ | `8ef1681` |
 
 ## Module 3 — Challenge and Reward
 
