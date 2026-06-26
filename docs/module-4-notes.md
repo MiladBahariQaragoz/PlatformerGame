@@ -100,3 +100,38 @@ start screen is the front door, and building it well means thinking about state 
 the engine reference so `update` can call `this.game.setScene(new WorldScene())` on a start
 key. `main.js` boots into `StartScene`. The win/game-over screens and an in-game retry build on
 this same scene-flow in the next tasks.
+
+---
+
+## Game Over and Retry (+10 XP)
+
+An ending is only satisfying if it leads somewhere. Game over and retry close the outer loop —
+the loop *around* the gameplay — and turn a single attempt into a game you keep playing:
+
+- **Endings need an exit.** Module 3 could *reach* an end (zero lives, or the flag) but then
+  just froze. A real end screen names the outcome, reflects it back (the coin tally), and —
+  crucially — offers a next action. A dead end is a bug in the *flow*, even when the gameplay
+  is fine.
+- **Retry is free because state lives in the scene.** "Play again" is literally
+  `setScene(new WorldScene())`. Because every bit of run state (lives, score, enemy/coin
+  status, player position) lives inside the scene instance, throwing it away and making a new
+  one *is* a perfect reset. No teardown, no "reset everything" function to keep in sync — the
+  cleanest restart is no restart code at all.
+- **Symmetric ends, one screen.** Win and lose share `GameOverScene`, differing only by a
+  `result` flag (headline + tint). Two outcomes, one code path — the same economy as "one AABB,
+  many mechanics." It also guarantees both endings *feel* like part of one system.
+- **Let the moment land first.** We don't cut to the menu the instant the last life is lost.
+  The world lingers ~1s — particles settle, the screen fades — so the player *feels* the
+  ending before they're asked what to do next. Pacing a transition is as much design as the
+  screen itself.
+- **Give players the two choices they want.** After an ending there are really only two
+  intents: "again" or "out." Retry (Space) and title (Esc) cover both, using keys consistent
+  with the rest of the game. More options here would be clutter.
+- **The loop is now closed.** Title → play → end → (play again | title). The player can run
+  the whole cycle forever without touching the page reload — the mark of a finished game rather
+  than a tech demo.
+
+**How it maps to our code:** `WorldScene` sets `endTimer = config.flow.endDelay` when the run
+ends, fades out (`drawEndFade`), then `setScene(new GameOverScene(result, score, total))`.
+`GameOverScene.update` maps retry keys → `new WorldScene()` and Escape → `new StartScene()`.
+Fresh-scene-per-run is what makes retry a one-liner.

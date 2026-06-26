@@ -9,8 +9,8 @@ row with the commit that implemented it, so the game's history is auditable end 
 
 | Metric | Value |
 | --- | --- |
-| Tasks completed | 43 / 48 |
-| XP earned | 335 / 360 |
+| Tasks completed | 44 / 48 |
+| XP earned | 345 / 360 |
 
 ## Module 1 — Your Game World
 
@@ -73,8 +73,8 @@ row with the commit that implemented it, so the game's history is auditable end 
 | Sound Design | 10 | ☑ | `5f3402d` |
 | Add a Start Screen | 5 | ☑ | `9d2fe99` |
 | Menus and Flow | 10 | ☑ | `d0ad627` |
-| Add a Game Over Screen | 5 | ☑ | `PENDING` |
-| Game Over and Retry | 10 | ☐ | — |
+| Add a Game Over Screen | 5 | ☑ | `108bb1a` |
+| Game Over and Retry | 10 | ☑ | `PENDING` |
 | Final Creative Touches | 5 | ☐ | — |
 | The Complete Picture | 10 | ☐ | — |
 | Polish Recap | 10 | ☐ | — |

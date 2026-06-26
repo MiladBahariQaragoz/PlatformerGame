@@ -48,7 +48,7 @@
 - [x] Add a Start Screen (+5 XP)
 - [x] Menus and Flow (+10 XP)
 - [x] Add a Game Over Screen (+5 XP)
-- [ ] Game Over and Retry (+10 XP)
+- [x] Game Over and Retry (+10 XP)
 - [ ] Final Creative Touches (+5 XP)
 - [ ] The Complete Picture (+10 XP)
 - [ ] Polish Recap (+10 XP)
