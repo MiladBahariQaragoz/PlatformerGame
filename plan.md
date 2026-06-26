@@ -10,7 +10,7 @@
 - [x] Set the Mood (+5 XP)
 - [x] Atmosphere and Tone (+10 XP)
 - [x] World Building Recap (+10 XP)
-- [ ] Module Quiz 1 (+10 XP)
+- [x] Module Quiz 1 (+10 XP)
 
 # Move and Jump
 - [ ] Make It Move (+5 XP)
