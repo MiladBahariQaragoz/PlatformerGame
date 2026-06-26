@@ -17,7 +17,7 @@
 - [x] How Characters Move (+10 XP)
 - [x] Add Jumping (+5 XP)
 - [x] The Art of Jumping (+10 XP)
-- [ ] Extend the Level (+5 XP)
+- [x] Extend the Level (+5 XP)
 - [ ] Collision and Solid Ground (+10 XP)
 - [ ] Scroll the World (+5 XP)
 - [ ] Camera and Exploration (+10 XP)
