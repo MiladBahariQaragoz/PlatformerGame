@@ -57,3 +57,21 @@ The player avatar is the thing the eye locks onto, so it needs **instant readabi
 
 **How it maps to our code:** `entities/Player.js` keeps the character as data + a small
 `render`, with color and size in `config.js` so identity stays tunable in one place.
+
+---
+
+## Details That Bring Worlds Alive (+10 XP)
+
+Details are what turn "a level" into "a place". The trick is **cheap detail with depth**:
+
+- **Layering** — background (clouds), midground (platforms/path), foreground (bushes).
+  Distinct layers give the flat canvas a sense of depth. We draw strictly back-to-front.
+- **Variation** — repeating the same cloud/bush looks fake. We vary `scale` and position so
+  the eye reads them as natural, not tiled.
+- **Restraint** — detail should frame the action, never compete with it. Scenery is
+  low-contrast and sits away from the play path so platforms and the player stay legible.
+- **Room to grow** — because decorations are data, "alive" touches (drifting clouds,
+  swaying bushes) become a Module-4 juice pass without touching the level's structure.
+
+**How it maps to our code:** `WorldScene.render` composites back-to-front (sky → clouds →
+platforms → bushes → player); `level1.decorations` supplies varied, data-driven scenery.
