@@ -38,7 +38,7 @@
 - [x] Add a Level Exit (+5 XP)
 - [x] Goals and Completion (+10 XP)
 - [x] Challenge Recap (+10 XP)
-- [ ] Module Quiz 3 (+10 XP)
+- [x] Module Quiz 3 (+10 XP)
 
 # Polish and Beyond
 - [ ] Add Juice Effects (+5 XP)
