@@ -59,7 +59,7 @@ export class GameOverScene {
       this.stats;
     if (!won && reason) {
       const why =
-        reason === 'lives' ? 'Out of lives!' : reason === 'time' ? 'Out of time!' : 'The chaser caught you!';
+        reason === 'lives' ? 'شوما کوشته شدید' : reason === 'time' ? 'Out of time!' : 'ترامپ شما را پخ پخ کرد';
       ctx.fillStyle = colors.text;
       ctx.font = '15px system-ui, sans-serif';
       ctx.fillText(why, cx, height / 2 - 42);
