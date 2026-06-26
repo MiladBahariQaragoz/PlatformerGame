@@ -2,24 +2,30 @@
 // a patch of ground, then gains a path, a character, decorations, and mood/atmosphere.
 
 import { CONFIG } from '../config.js';
+import { level1 } from '../levels/level1.js';
 
 export class WorldScene {
+  constructor(level = level1) {
+    this.level = level;
+  }
+
   update(_dt, _input) {
     // Nothing moves yet — movement arrives in Module 2.
   }
 
   render(ctx) {
-    const { width, height, groundHeight, colors } = CONFIG;
+    const { width, height, colors } = CONFIG;
 
     // Sky
     ctx.fillStyle = colors.sky;
     ctx.fillRect(0, 0, width, height);
 
-    // Ground: a grassy top strip over a soil body.
-    const groundY = height - groundHeight;
-    ctx.fillStyle = colors.ground;
-    ctx.fillRect(0, groundY, width, groundHeight);
-    ctx.fillStyle = colors.groundTop;
-    ctx.fillRect(0, groundY, width, 10);
+    // The path: every solid platform in the level, drawn as soil with a grassy cap.
+    for (const p of this.level.platforms) {
+      ctx.fillStyle = colors.platform;
+      ctx.fillRect(p.x, p.y, p.w, p.h);
+      ctx.fillStyle = colors.platformTop;
+      ctx.fillRect(p.x, p.y, p.w, Math.min(10, p.h));
+    }
   }
 }

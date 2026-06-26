@@ -21,6 +21,8 @@ export const CONFIG = {
     sky: '#5c94fc',
     ground: '#6b4f2a',
     groundTop: '#3fa34d',
+    platform: '#8a5a2b',
+    platformTop: '#3fa34d',
     text: '#ffffff',
   },
 };
