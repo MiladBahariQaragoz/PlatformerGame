@@ -31,6 +31,14 @@ export const CONFIG = {
     bobSpeed: 3, // bob rate (radians/s)
   },
 
+  // Patrolling enemies. Positions/patrol bounds are defined per-level.
+  enemy: {
+    width: 30,
+    height: 28,
+    speed: 70, // patrol walk speed (px/s)
+    stompBounce: 0.6, // fraction of jumpSpeed the player rebounds after a stomp
+  },
+
   // Palette
   colors: {
     sky: '#5c94fc',
@@ -49,6 +57,9 @@ export const CONFIG = {
     coin: '#ffd23f',
     coinShine: '#fff1a8',
     coinEdge: '#caa000',
+    enemy: '#8e44ad',
+    enemyEye: '#ffffff',
+    enemyDefeated: '#5e3370',
     text: '#ffffff',
   },
 };

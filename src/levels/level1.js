@@ -47,6 +47,15 @@ export const level1 = {
     { x: 1445, y: 174 }, // final lookout
   ],
 
+  // Patrolling enemies: {x, y} top-left, with optional patrol bounds {minX, maxX} (world x)
+  // and a starting direction `dir` (-1 left, 1 right). Two roam the ground; one guards the
+  // wide rest platform where coins cluster. (Enemy is 28px tall: groundY 386 → y 358.)
+  enemies: [
+    { x: 420, y: 358, dir: -1, minX: 360, maxX: 600 },
+    { x: 520, y: 202, dir: 1, minX: 470, maxX: 620 }, // on the rest platform
+    { x: 1040, y: 358, dir: -1, minX: 950, maxX: 1180 },
+  ],
+
   // Non-interactive scenery — drawn behind the platforms and player. Pure decoration,
   // kept as data so a level's look is part of its description.
   decorations: {

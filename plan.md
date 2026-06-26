@@ -29,7 +29,7 @@
 # Challenge and Reward
 - [x] Add Collectibles (+5 XP)
 - [x] Rewards and Motivation (+10 XP)
-- [ ] Add an Enemy (+5 XP)
+- [x] Add an Enemy (+5 XP)
 - [ ] Enemies and Obstacles (+10 XP)
 - [ ] Add Hazards (+5 XP)
 - [ ] Difficulty and Fairness (+10 XP)

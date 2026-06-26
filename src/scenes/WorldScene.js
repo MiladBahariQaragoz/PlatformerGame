@@ -5,6 +5,7 @@ import { CONFIG } from '../config.js';
 import { level1 } from '../levels/level1.js';
 import { Player } from '../entities/Player.js';
 import { Collectible } from '../entities/Collectible.js';
+import { Enemy } from '../entities/Enemy.js';
 import { moveAndCollide, aabbOverlap } from '../engine/physics.js';
 import { Camera } from '../engine/camera.js';
 
@@ -18,6 +19,9 @@ export class WorldScene {
     // Build one coin per level entry; track how many the player has collected.
     this.collectibles = (level.collectibles ?? []).map((c) => new Collectible(c.x, c.y));
     this.score = 0;
+
+    // Build patrolling enemies from level data.
+    this.enemies = (level.enemies ?? []).map((e) => new Enemy(e.x, e.y, e));
   }
 
   update(dt, input) {
@@ -50,6 +54,31 @@ export class WorldScene {
         this.score += 1;
       }
     }
+
+    // 7. Enemies: patrol, then resolve contact. Landing on top defeats one (and bounces
+    //    the player); any other contact sends the player back to the spawn point.
+    for (const e of this.enemies) {
+      e.update(dt, this.level.platforms);
+      if (e.defeated || !aabbOverlap(p, e)) continue;
+      const fromAbove = p.vy > 0 && p.y + p.h - e.y < e.h * 0.6;
+      if (fromAbove) {
+        e.defeated = true;
+        p.vy = -CONFIG.player.jumpSpeed * CONFIG.enemy.stompBounce;
+      } else {
+        this.respawnPlayer();
+      }
+    }
+  }
+
+  // Send the player back to the level's spawn point with zeroed motion.
+  respawnPlayer() {
+    const s = this.level.spawn;
+    const p = this.player;
+    p.x = s.x;
+    p.y = s.y;
+    p.vx = 0;
+    p.vy = 0;
+    p.onGround = false;
   }
 
   render(ctx) {
@@ -86,6 +115,9 @@ export class WorldScene {
 
     // Coins, drawn on the world (skip ones already collected).
     for (const c of this.collectibles) if (!c.collected) c.render(ctx);
+
+    // Enemies, drawn on the world (defeated ones render as a flattened husk).
+    for (const e of this.enemies) e.render(ctx);
 
     // The character, drawn on top of the world.
     this.player.render(ctx);
