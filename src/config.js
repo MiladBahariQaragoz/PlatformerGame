@@ -25,6 +25,10 @@ export const CONFIG = {
   // Palette
   colors: {
     sky: '#5c94fc',
+    skyTop: '#3b6fd4',
+    skyBottom: '#9fd0ff',
+    sun: '#fff3b0',
+    sunGlow: 'rgba(255, 243, 176, 0.35)',
     ground: '#6b4f2a',
     groundTop: '#3fa34d',
     platform: '#8a5a2b',

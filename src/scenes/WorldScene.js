@@ -20,9 +20,15 @@ export class WorldScene {
     const { width, height, colors } = CONFIG;
     const deco = this.level.decorations;
 
-    // Sky
-    ctx.fillStyle = colors.sky;
+    // Sky: a vertical gradient sets the time-of-day mood.
+    const sky = ctx.createLinearGradient(0, 0, 0, height);
+    sky.addColorStop(0, colors.skyTop);
+    sky.addColorStop(1, colors.skyBottom);
+    ctx.fillStyle = sky;
     ctx.fillRect(0, 0, width, height);
+
+    // Sun with a soft glow, high in the sky.
+    this.drawSun(ctx, width - 120, 90, 34);
 
     // Background scenery: clouds drift behind everything.
     if (deco) for (const c of deco.clouds) this.drawCloud(ctx, c);
@@ -40,6 +46,18 @@ export class WorldScene {
 
     // The character, drawn on top of the world.
     this.player.render(ctx);
+  }
+
+  // The sun: a soft glow halo around a bright disc.
+  drawSun(ctx, x, y, r) {
+    ctx.fillStyle = CONFIG.colors.sunGlow;
+    ctx.beginPath();
+    ctx.arc(x, y, r * 1.8, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = CONFIG.colors.sun;
+    ctx.beginPath();
+    ctx.arc(x, y, r, 0, Math.PI * 2);
+    ctx.fill();
   }
 
   // A cloud is three overlapping puffs; `scale` varies its size.
