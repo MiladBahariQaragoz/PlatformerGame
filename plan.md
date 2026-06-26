@@ -46,7 +46,7 @@
 - [x] Add Sound Effects (+5 XP)
 - [x] Sound Design (+10 XP)
 - [x] Add a Start Screen (+5 XP)
-- [ ] Menus and Flow (+10 XP)
+- [x] Menus and Flow (+10 XP)
 - [ ] Add a Game Over Screen (+5 XP)
 - [ ] Game Over and Retry (+10 XP)
 - [ ] Final Creative Touches (+5 XP)

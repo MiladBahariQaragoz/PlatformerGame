@@ -67,3 +67,36 @@ elsewhere. A few principles shaped our effects:
 sweep with a gain decay) exposing one method per event; `WorldScene` calls `audio.jump()`,
 `audio.coin()`, etc. at the same points it fires particles. `audio.toggle()` (bound to M)
 mutes; master volume is `config.audio.volume`.
+
+---
+
+## Menus and Flow (+10 XP)
+
+A game is more than its gameplay — it's a *flow* of screens the player moves through. The
+start screen is the front door, and building it well means thinking about state and structure:
+
+- **A game is a state machine of scenes.** Title → play → (win / game over) → play again.
+  Each screen is a self-contained scene with its own `update`/`render`; the engine swaps the
+  active one. No screen needs to know the internals of another — they share only the seam.
+- **The engine already had the seam.** `Game.setScene()` (with `enter`/`exit` hooks) was built
+  back in Module 0's loop, anticipating this. Adding a screen meant writing one new scene and
+  pointing `main.js` at it — no engine changes. Designing the extension point early is what
+  makes late features cheap.
+- **A title screen sets expectations.** Before any challenge, the player gets the name, the
+  tone, and the controls. It's also a *soft start*: nothing is happening, no clock is running,
+  so the player begins on their own terms (and, conveniently, the first keypress unlocks
+  audio).
+- **Fresh state per run.** Starting gameplay constructs a *new* `WorldScene`, so every playthrough
+  begins clean — lives full, coins unspent, enemies alive. Because all run state lives in the
+  scene instance, "restart" is just "make a new scene." That single decision makes retry trivial.
+- **Consistent input language.** The same keys that mean "go/up" in play (Space/W/↑) mean
+  "proceed" in menus. Reusing the player's existing vocabulary means there's nothing new to
+  learn at a screen boundary.
+- **Separation of concerns, visually too.** Menu rendering lives in the menu scene, gameplay
+  rendering in the world scene. They can share a look (the sky/ground backdrop) without sharing
+  code paths, so changing one never risks the other.
+
+**How it maps to our code:** `scenes/StartScene.js` is a full scene; its `enter(game)` stores
+the engine reference so `update` can call `this.game.setScene(new WorldScene())` on a start
+key. `main.js` boots into `StartScene`. The win/game-over screens and an in-game retry build on
+this same scene-flow in the next tasks.
