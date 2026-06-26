@@ -13,9 +13,14 @@ export const CONFIG = {
   gravity: 1800,
   // Movement / jump tuning gets added in Module 2 (Move and Jump).
 
+  // Ground height (pixels from the bottom of the canvas).
+  groundHeight: 64,
+
   // Palette
   colors: {
     sky: '#5c94fc',
+    ground: '#6b4f2a',
+    groundTop: '#3fa34d',
     text: '#ffffff',
   },
 };

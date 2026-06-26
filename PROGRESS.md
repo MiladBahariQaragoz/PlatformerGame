@@ -9,14 +9,14 @@ row with the commit that implemented it, so the game's history is auditable end 
 
 | Metric | Value |
 | --- | --- |
-| Tasks completed | 0 / 48 |
-| XP earned | 0 / 360 |
+| Tasks completed | 1 / 48 |
+| XP earned | 5 / 360 |
 
 ## Module 1 — Your Game World
 
 | Task | XP | Status | Commit |
 | --- | --- | --- | --- |
-| Set the Scene | 5 | ☐ | — |
+| Set the Scene | 5 | ☑ | _pending_ |
 | Build the Path | 5 | ☐ | — |
 | What Makes a Game World | 10 | ☐ | — |
 | Platforms and Level Layout | 10 | ☐ | — |
