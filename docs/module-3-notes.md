@@ -116,3 +116,35 @@ A challenge only matters if failing it *costs* something. Lives turn "oops, rese
 `hitPlayer()`, which decrements and either `respawnPlayer()`s or trips `gameOver`; `update`
 bails immediately while `gameOver` is set. `drawLives` shows the hearts and `drawGameOver`
 the end screen. The starting count is `config.lives.start`.
+
+---
+
+## Goals and Completion (+10 XP)
+
+Until now the level had no *end* — you could run right forever. A goal turns a space into a
+*journey* with a destination, and gives all the challenge a point:
+
+- **A goal gives direction.** The flag answers "where am I going?" Every coin, enemy, and
+  spike between spawn and flag becomes part of a route *toward something*, not just scenery to
+  wander past. Challenge without a finish line is just an obstacle course with no door.
+- **Win states balance fail states.** Module 3 added the ways to lose (hazards, enemies,
+  zero lives); the exit adds the way to *win*. A game needs both — a fail state with no win
+  state is a punishment, not a game.
+- **Completion is a feedback moment.** Touching the flag freezes the world and celebrates
+  ("LEVEL COMPLETE") with the coin tally — the same loop-closing payoff as collecting a coin,
+  scaled up to the whole level. The journey gets an ending, and the ending acknowledges how
+  you played.
+- **The flag is a promise kept.** It's been visible (placed in level data on the final
+  lookout) as a far-off marker the camera reveals as you progress. Seeing the goal ahead and
+  finally reaching it is the level's whole arc in one object.
+- **Same pattern, new meaning.** Mechanically the exit is *just another AABB overlap* — the
+  same primitive as coins, enemies, and spikes. One simple idea (do two boxes touch?) powers
+  collect, hurt, and win. That economy of concepts is the engine staying small while the game
+  grows.
+- **Symmetric end screens.** Win and lose share a structure (freeze + dim overlay + message),
+  so they feel like two outcomes of one system. Module 4 will make either one *replayable*.
+
+**How it maps to our code:** `entities/Exit.js` is the flag (an AABB + render); it's level
+data (`level.exit`). `WorldScene.update` step 9 flips `levelComplete` on overlap and the
+`update` guard then freezes the world; `drawLevelComplete` shows the win overlay. It mirrors
+the game-over path exactly — two ends of the same machine.
