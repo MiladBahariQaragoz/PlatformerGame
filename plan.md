@@ -19,7 +19,7 @@
 - [x] The Art of Jumping (+10 XP)
 - [x] Extend the Level (+5 XP)
 - [x] Collision and Solid Ground (+10 XP)
-- [ ] Scroll the World (+5 XP)
+- [x] Scroll the World (+5 XP)
 - [ ] Camera and Exploration (+10 XP)
 - [ ] Add Control Hints (+5 XP)
 - [ ] Game Feel and Polish (+10 XP)

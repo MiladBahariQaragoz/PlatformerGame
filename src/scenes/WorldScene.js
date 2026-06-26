@@ -5,11 +5,13 @@ import { CONFIG } from '../config.js';
 import { level1 } from '../levels/level1.js';
 import { Player } from '../entities/Player.js';
 import { moveAndCollide } from '../engine/physics.js';
+import { Camera } from '../engine/camera.js';
 
 export class WorldScene {
   constructor(level = level1) {
     this.level = level;
     this.player = new Player(level.spawn.x, level.spawn.y);
+    this.camera = new Camera(CONFIG.width, level.width);
   }
 
   update(dt, input) {
@@ -28,6 +30,9 @@ export class WorldScene {
     const maxX = this.level.width - p.w;
     if (p.x < 0) p.x = 0;
     if (p.x > maxX) p.x = maxX;
+
+    // 5. Camera tracks the player across the wider level.
+    this.camera.follow(p);
   }
 
   render(ctx) {
@@ -41,8 +46,12 @@ export class WorldScene {
     ctx.fillStyle = sky;
     ctx.fillRect(0, 0, width, height);
 
-    // Sun with a soft glow, high in the sky.
+    // Sun stays fixed in the sky (screen space), independent of scrolling.
     this.drawSun(ctx, width - 120, 90, 34);
+
+    // Everything below scrolls with the camera: shift the world left by camera.x.
+    ctx.save();
+    ctx.translate(-Math.round(this.camera.x), 0);
 
     // Background scenery: clouds drift behind everything.
     if (deco) for (const c of deco.clouds) this.drawCloud(ctx, c);
@@ -60,6 +69,8 @@ export class WorldScene {
 
     // The character, drawn on top of the world.
     this.player.render(ctx);
+
+    ctx.restore();
   }
 
   // The sun: a soft glow halo around a bright disc.

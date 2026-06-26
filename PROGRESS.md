@@ -9,8 +9,8 @@ row with the commit that implemented it, so the game's history is auditable end 
 
 | Metric | Value |
 | --- | --- |
-| Tasks completed | 18 / 48 |
-| XP earned | 140 / 360 |
+| Tasks completed | 19 / 48 |
+| XP earned | 145 / 360 |
 
 ## Module 1 — Your Game World
 
@@ -38,8 +38,8 @@ row with the commit that implemented it, so the game's history is auditable end 
 | Add Jumping | 5 | ☑ | `b70af27` |
 | The Art of Jumping | 10 | ☑ | `df52a01` |
 | Extend the Level | 5 | ☑ | `65aed0f` |
-| Collision and Solid Ground | 10 | ☑ | _pending_ |
-| Scroll the World | 5 | ☐ | — |
+| Collision and Solid Ground | 10 | ☑ | `abaada7` |
+| Scroll the World | 5 | ☑ | _pending_ |
 | Camera and Exploration | 10 | ☐ | — |
 | Add Control Hints | 5 | ☐ | — |
 | Game Feel and Polish | 10 | ☐ | — |
