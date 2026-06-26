@@ -22,3 +22,8 @@ Thumbs.db
 # Local Claude settings are kept; ignore secrets only
 .env
 .env.local
+
+# Source images for the face SVGs: the game uses the generated assets/images/*.svg (the raster
+# is embedded inside them), so these large originals don't need to be in the repo.
+assets/images/hero.png
+assets/images/chaser.jpg

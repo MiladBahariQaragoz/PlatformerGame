@@ -27,11 +27,14 @@ eyes for the chaser), so the game always runs.
 
 Put the file in `assets/images/`. The defaults are:
 
-- **Hero:** `assets/images/hero-face.svg`  →  configured at `CONFIG.player.face.src`
-- **Chaser:** `assets/images/chaser-face.svg`  →  configured at `CONFIG.chaser.face.src`
+- **Hero:** `assets/images/hero.svg`  →  configured at `CONFIG.player.face.src`
+- **Chaser:** `assets/images/chaser.svg`  →  configured at `CONFIG.chaser.face.src`
 
-The two `*.svg` files currently there are **placeholders** — replace them, or add your own file
-and update the matching `src` in [`src/config.js`](../src/config.js).
+These two `*.svg` files are generated from uploaded pictures: the raster is resized to 256×256
+and embedded as a data URI inside a standard SVG, so they draw on the canvas without any external
+fetch. To change a face, either replace the SVG, or add your own image file and update the
+matching `src` in [`src/config.js`](../src/config.js) (the loader also accepts `.png` / `.jpg`
+directly — an SVG wrapper is only needed if you specifically want an `.svg`).
 
 ### Two ways to use your own picture
 

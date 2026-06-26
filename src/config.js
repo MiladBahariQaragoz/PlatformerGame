@@ -34,7 +34,7 @@ export const CONFIG = {
     // background) at `src`; see docs/face-image-template.md. Falls back to a drawn eye if the
     // image is missing or still loading.
     face: {
-      src: 'assets/images/hero-face.svg',
+      src: 'assets/images/hero.svg',
       size: 24, // px the face is drawn at (square), centred on the upper body
       offsetY: 1, // nudge the face down from the head top (px)
     },
@@ -112,7 +112,7 @@ export const CONFIG = {
     bobSpeed: 4, // bob rate (radians/s)
     // Optional face image, same contract as the player's face (see docs/face-image-template.md).
     face: {
-      src: 'assets/images/chaser-face.svg',
+      src: 'assets/images/chaser.svg',
       size: 30,
       offsetY: 0,
     },
