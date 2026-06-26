@@ -75,3 +75,22 @@ Details are what turn "a level" into "a place". The trick is **cheap detail with
 
 **How it maps to our code:** `WorldScene.render` composites back-to-front (sky → clouds →
 platforms → bushes → player); `level1.decorations` supplies varied, data-driven scenery.
+
+---
+
+## Atmosphere and Tone (+10 XP)
+
+Atmosphere is the *emotional temperature* of the world, and color is the main lever:
+
+- **Palette = feeling** — bright sky-blue, warm sun, and lush green read as cheerful and
+  safe, the right tone for a friendly platformer. A horror game would desaturate and darken
+  the exact same geometry.
+- **Light direction & warmth** — the warm sun and its glow give a single, consistent light
+  source; warmth up top against cooler ground frames the play space.
+- **Gradients over flats** — the sky gradient adds depth and time-of-day; a flat fill feels
+  like a menu, a gradient feels like a sky.
+- **Consistency** — every element shares the palette in `config.js`, so the world feels
+  like one place. Tone changes (dusk, night) become a one-file palette swap.
+
+**How it maps to our code:** the gradient + sun in `WorldScene` plus the centralized
+`config.colors` palette are the tone knobs — change the palette, change the mood.

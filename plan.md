@@ -8,7 +8,7 @@
 - [x] Decorate the World (+5 XP)
 - [x] Details That Bring Worlds Alive (+10 XP)
 - [x] Set the Mood (+5 XP)
-- [ ] Atmosphere and Tone (+10 XP)
+- [x] Atmosphere and Tone (+10 XP)
 - [ ] World Building Recap (+10 XP)
 - [ ] Module Quiz 1 (+10 XP)
 
