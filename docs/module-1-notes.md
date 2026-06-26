@@ -39,3 +39,21 @@ Good layout is about **rhythm and reachability**, not random placement:
 
 **Applied to `level1.js`:** retuned the platforms into an even climbing staircase with a
 wider rest platform before the final summit step.
+
+---
+
+## Characters and Identity (+10 XP)
+
+The player avatar is the thing the eye locks onto, so it needs **instant readability**:
+
+- **Silhouette** — a clear, simple shape reads at any size. Ours is a tall rounded-feeling
+  rectangle, taller than wide, so it reads as "a character" not "a block".
+- **Contrast** — the character must pop against the world. Red on a blue-sky / green world
+  is high-contrast and never camouflages into platforms.
+- **Facing** — a single eye gives the character a front. We store `facing` on the player so
+  the eye flips with movement direction (wired up in Module 2).
+- **Personality through restraint** — even one feature (an eye) suggests a living thing.
+  More detail comes later via animation/juice (Module 4), not by cluttering the base shape.
+
+**How it maps to our code:** `entities/Player.js` keeps the character as data + a small
+`render`, with color and size in `config.js` so identity stays tunable in one place.

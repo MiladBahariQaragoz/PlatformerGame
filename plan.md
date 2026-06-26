@@ -4,7 +4,7 @@
 - [x] What Makes a Game World (+10 XP)
 - [x] Platforms and Level Layout (+10 XP)
 - [x] Add Your Character (+5 XP)
-- [ ] Characters and Identity (+10 XP)
+- [x] Characters and Identity (+10 XP)
 - [ ] Decorate the World (+5 XP)
 - [ ] Details That Bring Worlds Alive (+10 XP)
 - [ ] Set the Mood (+5 XP)
