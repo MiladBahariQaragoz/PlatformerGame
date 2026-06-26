@@ -9,8 +9,8 @@ row with the commit that implemented it, so the game's history is auditable end 
 
 | Metric | Value |
 | --- | --- |
-| Tasks completed | 39 / 48 |
-| XP earned | 305 / 360 |
+| Tasks completed | 40 / 48 |
+| XP earned | 315 / 360 |
 
 ## Module 1 — Your Game World
 
@@ -69,8 +69,8 @@ row with the commit that implemented it, so the game's history is auditable end 
 | --- | --- | --- | --- |
 | Add Juice Effects | 5 | ☑ | `a7e352c` |
 | Juice and Feedback | 10 | ☑ | `3dfd7bc` |
-| Add Sound Effects | 5 | ☑ | `PENDING` |
-| Sound Design | 10 | ☐ | — |
+| Add Sound Effects | 5 | ☑ | `c92e19d` |
+| Sound Design | 10 | ☑ | `PENDING` |
 | Add a Start Screen | 5 | ☐ | — |
 | Menus and Flow | 10 | ☐ | — |
 | Add a Game Over Screen | 5 | ☐ | — |

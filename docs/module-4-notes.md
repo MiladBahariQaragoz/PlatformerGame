@@ -34,3 +34,36 @@ calls `particles.burst()` on coin pickup (gold), stomp (purple), and hit (red), 
 `camera.shake()` on stomp/hit. Render applies `camera.shakeX/shakeY` to the world translate.
 All magnitudes live in `config.particles` and `config.shake`. Sound — the *other* half of
 feedback — is the next task.
+
+---
+
+## Sound Design (+10 XP)
+
+Sound is the half of feedback you hear, and it reaches the player even when their eyes are
+elsewhere. A few principles shaped our effects:
+
+- **Every action gets a voice.** Jump, coin, stomp, hit, win, game over — each event has a
+  distinct sound. Audio is a parallel feedback channel to the visuals; together they make an
+  event unmistakable. You can play half the game by ear.
+- **Sound carries meaning through shape.** Rising pitch = good/up (jump, coin); falling pitch
+  = bad/down (stomp impact, hit, game over). The player reads "win" vs "lose" from the
+  *contour* of a sound before they parse anything else. The win jingle rises (C–E–G); the
+  game-over tone sinks.
+- **Synthesis over assets.** We generate tones with oscillators instead of shipping `.wav`
+  files. That keeps the repo binary-free and the game open-and-play — and it makes every sound
+  a tunable number (frequency, duration, waveform), not a fixed recording. Retro bleeps suit
+  the placeholder-art aesthetic, too.
+- **The autoplay gate.** Browsers won't make sound until the player interacts, so the
+  `AudioContext` is created lazily and `resume()`d on demand — the first jump (a keypress)
+  unlocks audio naturally. Designing *around* the platform constraint beats fighting it.
+- **Respect the player: let them mute.** Sound is also an intrusion. A one-key mute (M) is the
+  minimum courtesy, and surfacing it in the control hints makes it discoverable. Good audio
+  design includes the off switch.
+- **Keep it short and non-blocking.** Effects are ~0.1–0.3s and scheduled on the audio clock
+  (the win arpeggio uses timed `delay`s, not `setTimeout`), so sound never stalls the game
+  loop and never overstays.
+
+**How it maps to our code:** `engine/audio.js` is a small synth (`tone()` does a frequency
+sweep with a gain decay) exposing one method per event; `WorldScene` calls `audio.jump()`,
+`audio.coin()`, etc. at the same points it fires particles. `audio.toggle()` (bound to M)
+mutes; master volume is `config.audio.volume`.
