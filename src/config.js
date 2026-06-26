@@ -31,6 +31,8 @@ export const CONFIG = {
     platformTop: '#3fa34d',
     player: '#e23b3b',
     playerEye: '#ffffff',
+    cloud: '#ffffff',
+    bush: '#2f8f3e',
     text: '#ffffff',
   },
 };

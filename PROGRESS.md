@@ -9,8 +9,8 @@ row with the commit that implemented it, so the game's history is auditable end 
 
 | Metric | Value |
 | --- | --- |
-| Tasks completed | 6 / 48 |
-| XP earned | 45 / 360 |
+| Tasks completed | 7 / 48 |
+| XP earned | 50 / 360 |
 
 ## Module 1 — Your Game World
 
@@ -21,8 +21,8 @@ row with the commit that implemented it, so the game's history is auditable end 
 | What Makes a Game World | 10 | ☑ | `c284ba2` |
 | Platforms and Level Layout | 10 | ☑ | `ecfbc35` |
 | Add Your Character | 5 | ☑ | `7be00c2` |
-| Characters and Identity | 10 | ☑ | _pending_ |
-| Decorate the World | 5 | ☐ | — |
+| Characters and Identity | 10 | ☑ | `104bcbc` |
+| Decorate the World | 5 | ☑ | _pending_ |
 | Details That Bring Worlds Alive | 10 | ☐ | — |
 | Set the Mood | 5 | ☐ | — |
 | Atmosphere and Tone | 10 | ☐ | — |

@@ -21,4 +21,19 @@ export const level1 = {
     { x: 470, y: 230, w: 150, h: 16 }, // rest platform (wider)
     { x: 660, y: 188, w: 110, h: 16 }, // summit
   ],
+
+  // Non-interactive scenery — drawn behind the platforms and player. Pure decoration,
+  // kept as data so a level's look is part of its description.
+  decorations: {
+    clouds: [
+      { x: 120, y: 70, scale: 1.0 },
+      { x: 430, y: 50, scale: 1.3 },
+      { x: 650, y: 95, scale: 0.8 },
+    ],
+    bushes: [
+      { x: 90, y: 386, scale: 1.0 },
+      { x: 300, y: 386, scale: 1.2 },
+      { x: 560, y: 386, scale: 0.9 },
+    ],
+  },
 };

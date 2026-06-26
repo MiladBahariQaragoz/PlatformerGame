@@ -18,10 +18,14 @@ export class WorldScene {
 
   render(ctx) {
     const { width, height, colors } = CONFIG;
+    const deco = this.level.decorations;
 
     // Sky
     ctx.fillStyle = colors.sky;
     ctx.fillRect(0, 0, width, height);
+
+    // Background scenery: clouds drift behind everything.
+    if (deco) for (const c of deco.clouds) this.drawCloud(ctx, c);
 
     // The path: every solid platform in the level, drawn as soil with a grassy cap.
     for (const p of this.level.platforms) {
@@ -31,7 +35,33 @@ export class WorldScene {
       ctx.fillRect(p.x, p.y, p.w, Math.min(10, p.h));
     }
 
+    // Foreground scenery: bushes sit on the ground.
+    if (deco) for (const b of deco.bushes) this.drawBush(ctx, b);
+
     // The character, drawn on top of the world.
     this.player.render(ctx);
+  }
+
+  // A cloud is three overlapping puffs; `scale` varies its size.
+  drawCloud(ctx, { x, y, scale = 1 }) {
+    const r = 18 * scale;
+    ctx.fillStyle = CONFIG.colors.cloud;
+    ctx.beginPath();
+    ctx.arc(x, y, r, 0, Math.PI * 2);
+    ctx.arc(x + r, y + r * 0.2, r * 0.85, 0, Math.PI * 2);
+    ctx.arc(x - r, y + r * 0.2, r * 0.75, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  // A bush is a row of green humps anchored at ground level (y = its base).
+  drawBush(ctx, { x, y, scale = 1 }) {
+    const r = 14 * scale;
+    ctx.fillStyle = CONFIG.colors.bush;
+    ctx.beginPath();
+    ctx.arc(x, y - r, r, Math.PI, Math.PI * 2);
+    ctx.arc(x + r, y - r * 0.8, r * 0.85, Math.PI, Math.PI * 2);
+    ctx.arc(x - r, y - r * 0.8, r * 0.85, Math.PI, Math.PI * 2);
+    ctx.fillRect(x - r * 2, y - r * 0.8, r * 4, r * 0.8);
+    ctx.fill();
   }
 }
