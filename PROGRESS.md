@@ -9,8 +9,8 @@ row with the commit that implemented it, so the game's history is auditable end 
 
 | Metric | Value |
 | --- | --- |
-| Tasks completed | 21 / 48 |
-| XP earned | 160 / 360 |
+| Tasks completed | 22 / 48 |
+| XP earned | 170 / 360 |
 
 ## Module 1 — Your Game World
 
@@ -41,8 +41,8 @@ row with the commit that implemented it, so the game's history is auditable end 
 | Collision and Solid Ground | 10 | ☑ | `abaada7` |
 | Scroll the World | 5 | ☑ | `acf41f6` |
 | Camera and Exploration | 10 | ☑ | `b549724` |
-| Add Control Hints | 5 | ☑ | _pending_ |
-| Game Feel and Polish | 10 | ☐ | — |
+| Add Control Hints | 5 | ☑ | `2418ebe` |
+| Game Feel and Polish | 10 | ☑ | _pending_ |
 | Movement Recap | 10 | ☐ | — |
 | Module Quiz 2 | 10 | ☐ | — |
 

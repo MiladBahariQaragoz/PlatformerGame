@@ -89,3 +89,26 @@ The camera decides what the player sees, which shapes how a level *feels* to exp
 **How it maps to our code:** `engine/camera.js` holds the offset and the follow+clamp math;
 `WorldScene.render` draws the sky/sun in screen space, then translates by the camera for the
 world.
+
+---
+
+## Game Feel and Polish (+10 XP)
+
+"Game feel" is the moment-to-moment satisfaction of control — the gap between *functional*
+and *fun*:
+
+- **Responsiveness first.** Input must register instantly. Our fixed-timestep loop + reading
+  input every step keeps controls tight; nothing buffers or lags.
+- **Communicate, don't assume.** A new player shouldn't guess the controls. The fading hint
+  HUD teaches them, then gets out of the way — present when useful, invisible when not.
+- **Readable state.** The player should always know what's happening: facing direction, when
+  they're grounded, where the edges are. Clear silhouettes and a steady camera do this.
+- **Polish is many small things.** Fades, easing, and feedback each seem minor; together
+  they're the difference. We added one (the hint fade) here; Module 4 ("juice") layers on
+  squash/stretch, particles, screen shake, and sound.
+- **Tuning is a feature.** Because speed, jump, gravity, and timings live in `config.js`,
+  feel is something we *dial in*, not something hard-coded and frozen.
+
+**How it maps to our code:** the responsive loop (`engine/game.js`), centralized tuning
+(`config.js`), and the fading hints (`WorldScene.drawHints`) are this module's feel work;
+the rest is scaffolded for Module 4.
