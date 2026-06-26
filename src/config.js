@@ -16,6 +16,12 @@ export const CONFIG = {
   // Ground height (pixels from the bottom of the canvas).
   groundHeight: 64,
 
+  // Character dimensions (pixels).
+  player: {
+    width: 28,
+    height: 40,
+  },
+
   // Palette
   colors: {
     sky: '#5c94fc',
@@ -23,6 +29,8 @@ export const CONFIG = {
     groundTop: '#3fa34d',
     platform: '#8a5a2b',
     platformTop: '#3fa34d',
+    player: '#e23b3b',
+    playerEye: '#ffffff',
     text: '#ffffff',
   },
 };

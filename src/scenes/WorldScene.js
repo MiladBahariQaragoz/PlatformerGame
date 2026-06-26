@@ -3,14 +3,17 @@
 
 import { CONFIG } from '../config.js';
 import { level1 } from '../levels/level1.js';
+import { Player } from '../entities/Player.js';
 
 export class WorldScene {
   constructor(level = level1) {
     this.level = level;
+    this.player = new Player(level.spawn.x, level.spawn.y);
   }
 
-  update(_dt, _input) {
-    // Nothing moves yet — movement arrives in Module 2.
+  update(dt, input) {
+    // Entities update themselves; movement logic arrives in Module 2.
+    this.player.update(dt, input);
   }
 
   render(ctx) {
@@ -27,5 +30,8 @@ export class WorldScene {
       ctx.fillStyle = colors.platformTop;
       ctx.fillRect(p.x, p.y, p.w, Math.min(10, p.h));
     }
+
+    // The character, drawn on top of the world.
+    this.player.render(ctx);
   }
 }

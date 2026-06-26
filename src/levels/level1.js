@@ -7,8 +7,9 @@
 export const level1 = {
   name: 'Green Hills 1',
 
-  // Where the character starts (used once the player entity is added).
-  spawn: { x: 48, y: 330 },
+  // Where the character starts — resting on the ground at the far left
+  // (ground top is y=386, player is 40px tall, so y=346 sits flush).
+  spawn: { x: 48, y: 346 },
 
   // The base ground spans the whole level; floating platforms form a climbing path.
   // Layout follows a readable rhythm: steady ~120px horizontal gaps and ~52px rises so
