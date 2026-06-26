@@ -35,8 +35,8 @@ export const CONFIG = {
     // image is missing or still loading.
     face: {
       src: 'assets/images/hero.svg',
-      size: 24, // px the face is drawn at (square), centred on the upper body
-      offsetY: 1, // nudge the face down from the head top (px)
+      size: 38, // px the face is drawn at (square), centred on the upper body
+      offsetY: -2, // nudge the face down from the head top (px)
     },
   },
 
@@ -113,8 +113,8 @@ export const CONFIG = {
     // Optional face image, same contract as the player's face (see docs/face-image-template.md).
     face: {
       src: 'assets/images/chaser.svg',
-      size: 30,
-      offsetY: 0,
+      size: 48,
+      offsetY: -2,
     },
   },
 
