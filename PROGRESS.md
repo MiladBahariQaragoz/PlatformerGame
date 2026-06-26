@@ -9,8 +9,8 @@ row with the commit that implemented it, so the game's history is auditable end 
 
 | Metric | Value |
 | --- | --- |
-| Tasks completed | 32 / 48 |
-| XP earned | 250 / 360 |
+| Tasks completed | 33 / 48 |
+| XP earned | 255 / 360 |
 
 ## Module 1 — Your Game World
 
@@ -57,8 +57,8 @@ row with the commit that implemented it, so the game's history is auditable end 
 | Add Hazards | 5 | ☑ | `07bc06d` |
 | Difficulty and Fairness | 10 | ☑ | `597febe` |
 | Add a Lives System | 5 | ☑ | `cf0a15f` |
-| Stakes and Consequence | 10 | ☑ | `PENDING` |
-| Add a Level Exit | 5 | ☐ | — |
+| Stakes and Consequence | 10 | ☑ | `5ba7a05` |
+| Add a Level Exit | 5 | ☑ | `PENDING` |
 | Goals and Completion | 10 | ☐ | — |
 | Challenge Recap | 10 | ☐ | — |
 | Module Quiz 3 | 10 | ☐ | — |

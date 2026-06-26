@@ -35,7 +35,7 @@
 - [x] Difficulty and Fairness (+10 XP)
 - [x] Add a Lives System (+5 XP)
 - [x] Stakes and Consequence (+10 XP)
-- [ ] Add a Level Exit (+5 XP)
+- [x] Add a Level Exit (+5 XP)
 - [ ] Goals and Completion (+10 XP)
 - [ ] Challenge Recap (+10 XP)
 - [ ] Module Quiz 3 (+10 XP)

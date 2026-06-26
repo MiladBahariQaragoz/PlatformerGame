@@ -7,6 +7,7 @@ import { Player } from '../entities/Player.js';
 import { Collectible } from '../entities/Collectible.js';
 import { Enemy } from '../entities/Enemy.js';
 import { Hazard } from '../entities/Hazard.js';
+import { Exit } from '../entities/Exit.js';
 import { moveAndCollide, aabbOverlap } from '../engine/physics.js';
 import { Camera } from '../engine/camera.js';
 
@@ -27,13 +28,17 @@ export class WorldScene {
     // Build static hazards (spike strips) from level data.
     this.hazards = (level.hazards ?? []).map((h) => new Hazard(h.x, h.y, h.w, h.h));
 
+    // The goal flag (if the level defines one) and the win flag.
+    this.exit = level.exit ? new Exit(level.exit.x, level.exit.y, level.exit.w, level.exit.h) : null;
+    this.levelComplete = false;
+
     // Lives: spend one per hit; at zero the run ends.
     this.lives = CONFIG.lives.start;
     this.gameOver = false;
   }
 
   update(dt, input) {
-    if (this.gameOver) return; // freeze the world once the run has ended
+    if (this.gameOver || this.levelComplete) return; // freeze once the run has ended or been won
 
     const p = this.player;
     this.elapsed += dt;
@@ -85,6 +90,12 @@ export class WorldScene {
         this.hitPlayer();
         break;
       }
+    }
+
+    // 9. Exit: reaching the goal flag completes the level.
+    if (this.exit && aabbOverlap(p, this.exit)) {
+      this.exit.reached = true;
+      this.levelComplete = true;
     }
   }
 
@@ -146,7 +157,8 @@ export class WorldScene {
     // Coins, drawn on the world (skip ones already collected).
     for (const c of this.collectibles) if (!c.collected) c.render(ctx);
 
-    // Hazards (spike strips) and enemies, drawn on the world.
+    // Goal flag, hazards, and enemies, drawn on the world.
+    if (this.exit) this.exit.render(ctx);
     for (const h of this.hazards) h.render(ctx);
     for (const e of this.enemies) e.render(ctx);
 
@@ -159,7 +171,23 @@ export class WorldScene {
     this.drawScore(ctx);
     this.drawLives(ctx);
     if (this.gameOver) this.drawGameOver(ctx);
+    else if (this.levelComplete) this.drawLevelComplete(ctx);
     else this.drawHints(ctx);
+  }
+
+  // Win screen: announce completion and show the coins gathered.
+  drawLevelComplete(ctx) {
+    const { width, height, colors } = CONFIG;
+    ctx.save();
+    ctx.fillStyle = colors.overlay;
+    ctx.fillRect(0, 0, width, height);
+    ctx.fillStyle = colors.text;
+    ctx.textAlign = 'center';
+    ctx.font = 'bold 40px system-ui, sans-serif';
+    ctx.fillText('LEVEL COMPLETE', width / 2, height / 2 - 6);
+    ctx.font = '16px system-ui, sans-serif';
+    ctx.fillText(`Coins  ${this.score} / ${this.collectibles.length}`, width / 2, height / 2 + 28);
+    ctx.restore();
   }
 
   // Remaining lives as a row of hearts, top-right under the coin counter.

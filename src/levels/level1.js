@@ -56,6 +56,10 @@ export const level1 = {
     { x: 1040, y: 358, dir: -1, minX: 950, maxX: 1180 },
   ],
 
+  // The level exit (goal flag): an AABB {x, y, w, h}. Stands on the final lookout platform
+  // (top y=200), so the pole rises from the platform to y=140. Reaching it wins the level.
+  exit: { x: 1466, y: 140, w: 28, h: 60 },
+
   // Static hazards (spike strips): {x, y, w, h}, resting on the ground (groundY 386, so
   // 20px-tall strips start at y 366). Placed in open stretches so they must be jumped.
   hazards: [
