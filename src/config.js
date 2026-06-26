@@ -5,7 +5,8 @@ export const CONFIG = {
   // Game identity (shown on menus).
   game: {
     title: 'LAVA RUN',
-    subtitle: 'endless jumps over the lava — how far can you go?',
+    subtitle: 'race the clock — grab coins for time, distance is your score',
+    storageKey: 'lavaRunHighScore', // localStorage key for the persisted best distance
   },
 
   // Canvas / viewport (logical pixels)
@@ -53,6 +54,15 @@ export const CONFIG = {
   // Lives: how many hits the player can take before it's game over.
   lives: {
     start: 3,
+  },
+
+  // Race timer (endless mode): the run ends when the clock or the lives run out. Coins buy
+  // time. Score is the distance travelled.
+  time: {
+    start: 20, // seconds on the clock at the start
+    perCoin: 3, // seconds added per coin collected
+    max: 30, // clock can't be banked above this (keeps the pressure on)
+    lowWarning: 5, // below this many seconds the clock turns red and pulses
   },
 
   // Juice: particle bursts and screen shake for feedback on events.
@@ -143,6 +153,8 @@ export const CONFIG = {
     lava: '#e2521a',
     lavaTop: '#ffb24a',
     lavaGlow: 'rgba(255, 120, 40, 0.45)',
+    timeLow: '#ff5252',
+    timeGain: '#5bf07a',
     text: '#ffffff',
   },
 };

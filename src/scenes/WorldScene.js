@@ -13,6 +13,7 @@ import { moveAndCollide, aabbOverlap } from '../engine/physics.js';
 import { Camera } from '../engine/camera.js';
 import { Particles } from '../engine/particles.js';
 import { audio } from '../engine/audio.js';
+import { getHighScore, setHighScore } from '../engine/highscore.js';
 import { GameOverScene } from './GameOverScene.js';
 
 export class WorldScene {
@@ -33,7 +34,12 @@ export class WorldScene {
 
     // Build one coin per level entry; track how many the player has collected.
     this.collectibles = (level.collectibles ?? []).map((c) => new Collectible(c.x, c.y));
-    this.score = 0;
+    this.coins = 0;
+
+    // Race the clock: coins add time, distance is the score. (Endless mode only.)
+    this.timeLeft = CONFIG.time.start;
+    this.timeGainFlash = 0; // brief green pulse on the clock when time is gained
+    this.endReason = null; // 'time' | 'lives' — why the run ended
 
     // Build patrolling enemies from level data.
     this.enemies = (level.enemies ?? []).map((e) => new Enemy(e.x, e.y, e));
@@ -79,6 +85,17 @@ export class WorldScene {
     // Mute toggle (M).
     if (input.wasPressed('KeyM')) audio.toggle();
 
+    // Race timer: ticks down; running out ends the run (endless mode).
+    if (this.endless) {
+      this.timeGainFlash = Math.max(0, this.timeGainFlash - dt);
+      this.timeLeft -= dt;
+      if (this.timeLeft <= 0) {
+        this.timeLeft = 0;
+        this.endRun('time');
+        return;
+      }
+    }
+
     // 1. Entity decides its movement intent from input.
     p.update(dt, input);
 
@@ -122,9 +139,13 @@ export class WorldScene {
       c.update(dt);
       if (aabbOverlap(p, c)) {
         c.collected = true;
-        this.score += 1;
+        this.coins += 1;
         this.particles.burst(c.x + c.w / 2, c.y + c.h / 2, CONFIG.colors.coin);
         audio.coin();
+        if (this.endless) {
+          this.timeLeft = Math.min(CONFIG.time.max, this.timeLeft + CONFIG.time.perCoin);
+          this.timeGainFlash = 0.4;
+        }
       }
     }
 
@@ -160,6 +181,7 @@ export class WorldScene {
     if (this.exit && aabbOverlap(p, this.exit)) {
       this.exit.reached = true;
       this.levelComplete = true;
+      this.finalizeScore();
       this.endTimer = CONFIG.flow.endDelay;
       audio.win();
     }
@@ -189,12 +211,35 @@ export class WorldScene {
     this.hazards = this.hazards.filter((h) => h.x + h.w >= minX);
   }
 
-  // Stats handed to the end screen: coins, the (finite) coin total, and endless distance.
+  // Record the final score (distance when endless, coins otherwise) and persist a new best.
+  finalizeScore() {
+    this.score = this.endless ? this.distance : this.coins;
+    const prevBest = getHighScore(CONFIG.game.storageKey);
+    this.isNewBest = this.score > prevBest;
+    this.highScore = Math.max(prevBest, this.score);
+    if (this.isNewBest) setHighScore(CONFIG.game.storageKey, this.score);
+  }
+
+  // End the run (out of time or out of lives) and start the linger before the end screen.
+  endRun(reason) {
+    if (this.gameOver) return;
+    this.gameOver = true;
+    this.endReason = reason;
+    this.finalizeScore();
+    this.endTimer = CONFIG.flow.endDelay;
+    audio.gameOver();
+  }
+
+  // Stats handed to the end screen.
   endStats() {
     return {
-      coins: this.score,
-      total: this.endless ? null : this.collectibles.length,
+      score: this.score,
+      best: this.highScore,
+      isNewBest: this.isNewBest,
+      reason: this.endReason,
+      coins: this.coins,
       distance: this.endless ? this.distance : null,
+      total: this.endless ? null : this.collectibles.length,
     };
   }
 
@@ -207,9 +252,7 @@ export class WorldScene {
     this.lives -= 1;
     if (this.lives <= 0) {
       this.lives = 0;
-      this.gameOver = true;
-      this.endTimer = CONFIG.flow.endDelay;
-      audio.gameOver();
+      this.endRun('lives');
     } else {
       audio.hit();
       this.respawnPlayer();
@@ -291,12 +334,36 @@ export class WorldScene {
     // The lava floor: a fixed band at the bottom of the screen (endless mode).
     if (this.endless) this.drawLava(ctx);
 
-    // HUD (screen space): coin score + lives (+ distance), then end fade or control hints.
+    // HUD (screen space): distance (score), coins, lives on the right; the race clock centred.
+    this.drawDistance(ctx);
     this.drawScore(ctx);
     this.drawLives(ctx);
-    this.drawDistance(ctx);
+    this.drawTime(ctx);
     if (this.gameOver || this.levelComplete) this.drawEndFade(ctx);
     else this.drawHints(ctx);
+  }
+
+  // The race clock, centred at the top. Pulses red when low on time, flashes green on a gain.
+  drawTime(ctx) {
+    if (!this.endless) return;
+    const c = CONFIG.colors;
+    const low = this.timeLeft < CONFIG.time.lowWarning;
+    let color = c.text;
+    if (this.timeGainFlash > 0) color = c.timeGain;
+    else if (low) color = c.timeLow;
+
+    ctx.save();
+    ctx.textAlign = 'center';
+    // A subtle pulse when time is running out.
+    if (low) ctx.globalAlpha = 0.6 + 0.4 * Math.abs(Math.sin(this.elapsed * 8));
+    ctx.fillStyle = color;
+    ctx.font = 'bold 30px system-ui, sans-serif';
+    ctx.fillText(this.timeLeft.toFixed(1), CONFIG.width / 2, 38);
+    ctx.globalAlpha = 1;
+    ctx.font = '11px system-ui, sans-serif';
+    ctx.fillStyle = c.text;
+    ctx.fillText('TIME', CONFIG.width / 2, 52);
+    ctx.restore();
   }
 
   // The lava floor: a glowing band pinned to the bottom of the screen, with a bright surface
@@ -340,41 +407,41 @@ export class WorldScene {
     ctx.restore();
   }
 
+  // Distance travelled — the run's score — pinned to the top-right (endless mode).
+  drawDistance(ctx) {
+    if (!this.endless) return;
+    ctx.save();
+    ctx.fillStyle = CONFIG.colors.text;
+    ctx.font = 'bold 18px system-ui, sans-serif';
+    ctx.textAlign = 'right';
+    ctx.fillText(`${this.distance} m`, CONFIG.width - 16, 28);
+    ctx.restore();
+  }
+
+  // Coin counter, under the distance. Endless shows the running total; static levels show
+  // progress toward the level's coins.
+  drawScore(ctx) {
+    const label = this.endless
+      ? `Coins  ${this.coins}`
+      : this.collectibles.length === 0
+        ? null
+        : `Coins  ${this.coins} / ${this.collectibles.length}`;
+    if (!label) return;
+    ctx.save();
+    ctx.fillStyle = CONFIG.colors.coin;
+    ctx.font = 'bold 15px system-ui, sans-serif';
+    ctx.textAlign = 'right';
+    ctx.fillText(label, CONFIG.width - 16, 50);
+    ctx.restore();
+  }
+
   // Remaining lives as a row of hearts, top-right under the coin counter.
   drawLives(ctx) {
     ctx.save();
     ctx.fillStyle = CONFIG.colors.heart;
     ctx.font = '16px system-ui, sans-serif';
     ctx.textAlign = 'right';
-    ctx.fillText('♥'.repeat(this.lives), CONFIG.width - 16, 50);
-    ctx.restore();
-  }
-
-  // Coin counter, pinned to the top-right (clear of the top-left control hints). Endless mode
-  // shows just the running total; static levels show progress toward the level's coins.
-  drawScore(ctx) {
-    const label = this.endless
-      ? `Coins  ${this.score}`
-      : this.collectibles.length === 0
-        ? null
-        : `Coins  ${this.score} / ${this.collectibles.length}`;
-    if (!label) return;
-    ctx.save();
-    ctx.fillStyle = CONFIG.colors.text;
-    ctx.font = 'bold 16px system-ui, sans-serif';
-    ctx.textAlign = 'right';
-    ctx.fillText(label, CONFIG.width - 16, 28);
-    ctx.restore();
-  }
-
-  // Distance travelled (endless mode), the run's main score, under the lives.
-  drawDistance(ctx) {
-    if (!this.endless) return;
-    ctx.save();
-    ctx.fillStyle = CONFIG.colors.text;
-    ctx.font = 'bold 16px system-ui, sans-serif';
-    ctx.textAlign = 'right';
-    ctx.fillText(`${this.distance} m`, CONFIG.width - 16, 72);
+    ctx.fillText('♥'.repeat(this.lives), CONFIG.width - 16, 72);
     ctx.restore();
   }
 
