@@ -27,7 +27,7 @@ row with the commit that implemented it, so the game's history is auditable end 
 | Set the Mood | 5 | ☑ | `a18f066` |
 | Atmosphere and Tone | 10 | ☑ | `49f21dd` |
 | World Building Recap | 10 | ☑ | `cdf7d44` |
-| Module Quiz 1 | 10 | ☑ | _pending_ |
+| Module Quiz 1 | 10 | ☑ | `dbd794f` |
 
 ## Module 2 — Move and Jump
 
