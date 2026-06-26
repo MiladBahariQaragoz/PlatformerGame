@@ -44,3 +44,26 @@ A jump is just an upward velocity fighting gravity, but the *feel* is everything
 
 **How it maps to our code:** `config.player.jumpSpeed` + `CONFIG.gravity` define the arc;
 `moveAndCollide` sets `onGround`; `WorldScene` only lets a queued jump fire when grounded.
+
+---
+
+## Collision and Solid Ground (+10 XP)
+
+Collision is what makes geometry *solid* instead of decorative. Our approach:
+
+- **AABB.** Everything is an axis-aligned bounding box. Two boxes overlap only if they
+  overlap on *both* axes — cheap and exact for rectangles (`aabbOverlap`).
+- **Axis-separated resolution.** We move and resolve one axis at a time: horizontal first,
+  then vertical. Doing both at once makes corners ambiguous (do you stop sideways or land?);
+  separating them gives clean "walls stop you, floors hold you" behavior.
+- **Resolve by velocity direction.** Moving right into a box → snap to its left face; falling
+  into a box → snap onto its top and set `onGround`; rising into one → bonk the underside.
+  After each resolve we zero that axis's velocity.
+- **Touching ≠ overlapping.** Resting exactly on a surface isn't an overlap, so a grounded
+  player doesn't jitter; gravity nudges them down a hair each frame and the floor snaps them
+  back, which is also how `onGround` stays true.
+- **Solid ground = the contract for jumping.** `onGround` from this step is exactly what
+  gates the jump, ties collision and movement together.
+
+**How it maps to our code:** all of this lives in `engine/physics.js` (`aabbOverlap`,
+`moveAndCollide`). The scene just hands it the player and the level's platforms.
