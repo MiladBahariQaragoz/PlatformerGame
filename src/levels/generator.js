@@ -30,6 +30,8 @@ export class LevelGenerator {
   constructor() {
     this.last = null; // most recently produced platform
     this.count = 0; // platforms produced so far
+    this.coinWindow = -1; // which coinPeriod-sized window we've scheduled a coin for
+    this.coinTarget = -1; // platform index (count) that gets the coin in the current window
   }
 
   get lavaY() {
@@ -80,12 +82,19 @@ export class LevelGenerator {
     const out = { platform, coins: [], enemies: [], hazards: [] };
     const safe = this.count <= e.safeStart;
 
-    // 4. Coins: a small arc hovering above the platform.
-    if (chance(e.coinChance)) {
-      const n = randInt(1, 3);
-      const spread = Math.min(w - 24, (n - 1) * 28);
-      const x0 = platform.x + w / 2 - spread / 2;
-      for (let i = 0; i < n; i++) out.coins.push({ x: x0 + i * 28, y: top - 30 });
+    // 4. Coins: exactly one per `coinPeriod` platforms, placed on a random platform within
+    //    each window. Sparse on purpose — coins are a time refill, so the clock still trends
+    //    down between them and the run stays a race.
+    const period = e.coinPeriod;
+    const win = Math.floor((this.count - 1) / period);
+    if (win !== this.coinWindow) {
+      this.coinWindow = win;
+      const lo = Math.max(win * period + 1, e.safeStart + 1);
+      const hi = win * period + period;
+      this.coinTarget = lo > hi ? -1 : randInt(lo, hi);
+    }
+    if (this.count === this.coinTarget) {
+      out.coins.push({ x: platform.x + w / 2, y: top - 30 }); // center point
     }
 
     // 5. A threat on wide-enough platforms (so there's always room to land): an enemy, or a

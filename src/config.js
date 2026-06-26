@@ -117,7 +117,7 @@ export const CONFIG = {
     aheadBuffer: 420, // generate platforms until this far past the right viewport edge
     cullBuffer: 240, // drop platforms/items this far behind the left viewport edge
     safeStart: 3, // first N platforms carry no enemies/hazards
-    coinChance: 0.6, // probability a platform gets a little coin arc
+    coinPeriod: 10, // exactly one coin per this many platforms, at a random platform in each
     enemyChance: 0.28, // probability a wide platform gets an enemy
     hazardChance: 0.26, // probability a wide platform gets a spike strip instead
   },
