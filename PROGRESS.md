@@ -61,7 +61,7 @@ row with the commit that implemented it, so the game's history is auditable end 
 | Add a Level Exit | 5 | ☑ | `2b6e99f` |
 | Goals and Completion | 10 | ☑ | `17311d6` |
 | Challenge Recap | 10 | ☑ | `9fa673a` |
-| Module Quiz 3 | 10 | ☑ | `PENDING` |
+| Module Quiz 3 | 10 | ☑ | `2492ea2` |
 
 ## Module 4 — Polish and Beyond
 
